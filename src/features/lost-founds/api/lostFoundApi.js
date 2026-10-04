@@ -23,7 +23,7 @@ const lostFoundApi = (() => {
     const responseJson = await response.json();
     const { success, message, data } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal mengambil daftar Lost & Founds');
     }
 
@@ -37,7 +37,7 @@ const lostFoundApi = (() => {
     const responseJson = await response.json();
     const { success, message, data } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal mengambil detail laporan');
     }
 
@@ -52,7 +52,7 @@ const lostFoundApi = (() => {
     const responseJson = await response.json();
     const { success, message, data } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal menambahkan laporan');
     }
 
@@ -78,7 +78,7 @@ const lostFoundApi = (() => {
     const responseJson = await response.json();
     const { success, message } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal memperbarui laporan');
     }
 
@@ -99,7 +99,7 @@ const lostFoundApi = (() => {
     const responseJson = await response.json();
     const { success, message } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal mengunggah cover laporan');
     }
 
@@ -116,7 +116,7 @@ const lostFoundApi = (() => {
     const responseJson = await response.json();
     const { success, message } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal menghapus laporan');
     }
 
@@ -137,7 +137,7 @@ const lostFoundApi = (() => {
     const responseJson = await response.json();
     const { success, message, data } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal mengambil statistik harian');
     }
 
@@ -158,7 +158,7 @@ const lostFoundApi = (() => {
     const responseJson = await response.json();
     const { success, message, data } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal mengambil statistik bulanan');
     }
 

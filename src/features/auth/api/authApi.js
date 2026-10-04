@@ -16,7 +16,7 @@ const authApi = (() => {
     const responseJson = await response.json();
     const { success, message } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal melakukan registrasi');
     }
 
@@ -32,7 +32,7 @@ const authApi = (() => {
     const responseJson = await response.json();
     const { success, message, data } = responseJson;
 
-    if (!success) {
+    if (!response.ok) {
       throw new Error(message || 'Gagal melakukan login');
     }
 

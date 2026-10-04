@@ -11,7 +11,7 @@ const authApi = (() => {
   async function postRegister({ name, email, password }) {
     const response = await apiHelper.fetchWithAuth(`${BASE_URL}/auth/register`, {
       method: 'POST',
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email, password, password_confirmation: password }),
     });
 
     const responseJson = await response.json();

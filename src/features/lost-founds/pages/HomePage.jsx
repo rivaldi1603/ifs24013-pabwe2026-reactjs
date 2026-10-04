@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { IconSearch, IconFilter, IconPlus, IconBox, IconMapPin, IconCheck, IconClock } from '@tabler/icons-react';
+import { IconSearch, IconFilter, IconPlus, IconBox, IconMapPin, IconCheck, IconClock, IconPhoto } from '@tabler/icons-react';
 import { asyncSetLostFounds, asyncSetLostFoundStats } from '../states/action';
 import AddModal from '../modals/AddModal';
 import { formatDate } from '../../../helpers/toolsHelper';
@@ -108,8 +108,7 @@ function HomePage() {
           <input
             type="text"
             value={searchQuery}
-            /* v8 ignore next */
-onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari berdasarkan judul atau deskripsi..."
             className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none text-sm"
           />
@@ -220,8 +219,5 @@ onChange={(e) => setSearchQuery(e.target.value)}
     </div>
   );
 }
-
-// Temporary import for the placeholder icon, moving it here so it doesn't break if not at top
-import { IconPhoto } from '@tabler/icons-react';
 
 export default HomePage;

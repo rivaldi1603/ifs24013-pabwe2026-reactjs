@@ -14,6 +14,7 @@ vi.mock('react-redux', () => ({
 vi.mock('../states/action', () => ({
   asyncSetLostFounds: vi.fn(),
   asyncSetLostFoundStats: vi.fn(),
+  asyncPostLostFound: vi.fn(),
 }));
 
 describe('HomePage', () => {
@@ -28,7 +29,7 @@ describe('HomePage', () => {
           {
             id: 1,
             title: 'Lost Item',
-            description: 'Lost somewhere',
+            description: 'Lost in park',
             status: 'lost',
             is_completed: 0,
             cover: 'http://cover.com/1.jpg',
@@ -112,5 +113,55 @@ describe('HomePage', () => {
     });
     renderComponent();
     expect(screen.getByText('Tidak ada data ditemukan')).toBeInTheDocument();
+  });
+
+  it('closes AddModal via Batal', async () => {
+    renderComponent();
+    await userEvent.click(screen.getByRole('button', { name: /Laporan Baru/i }));
+    await userEvent.click(screen.getByRole('button', { name: /Batal/i }));
+    expect(screen.queryByText('Tambah Laporan Baru')).not.toBeInTheDocument();
+  });
+
+  it('refetches data after AddModal success', async () => {
+    mockDispatch.mockResolvedValue(undefined);
+    renderComponent();
+    const callsBefore = asyncSetLostFounds.mock.calls.length;
+    await userEvent.click(screen.getByRole('button', { name: /Laporan Baru/i }));
+    await userEvent.type(screen.getByLabelText('Judul Laporan'), 'Kunci');
+    await userEvent.type(screen.getByLabelText('Deskripsi Detail'), 'Hilang');
+    await userEvent.click(screen.getByRole('button', { name: /Simpan Laporan/i }));
+    expect(asyncSetLostFounds.mock.calls.length).toBe(callsBefore + 1);
+    expect(screen.queryByText('Tambah Laporan Baru')).not.toBeInTheDocument();
+  });
+
+  it('matches search against description', async () => {
+    renderComponent();
+    await userEvent.type(
+      screen.getByPlaceholderText(/Cari berdasarkan judul atau deskripsi/i),
+      'here'
+    );
+    expect(screen.getByText('Found Item')).toBeInTheDocument();
+    expect(screen.queryByText('Lost Item')).not.toBeInTheDocument();
+  });
+
+  it('handles null list and author fallbacks', () => {
+    useSelector.mockImplementation((selector) =>
+      selector({ lostFounds: null, lostFoundStats: null })
+    );
+    const { unmount } = renderComponent();
+    expect(screen.getByText('Tidak ada data ditemukan')).toBeInTheDocument();
+    unmount();
+
+    useSelector.mockImplementation((selector) =>
+      selector({
+        lostFounds: [
+          { id: 5, title: 'With Photo', description: 'x', status: 'lost', is_completed: 0, author: { name: 'P', photo: 'http://img/p.png' } },
+          { id: 6, title: 'No Author', description: 'y', status: 'found', is_completed: 0 },
+        ],
+      })
+    );
+    renderComponent();
+    expect(screen.getByAltText('P')).toHaveAttribute('src', 'http://img/p.png');
+    expect(screen.getByText('No Author')).toBeInTheDocument();
   });
 });

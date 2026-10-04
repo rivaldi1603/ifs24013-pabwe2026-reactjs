@@ -1,46 +1,28 @@
-/* global DELCOM_BASEURL */
 import apiHelper from '../../../helpers/apiHelper';
+import { getBaseUrl } from '../../../helpers/baseUrl';
+import { parseApiResponse } from '../../../helpers/responseHelper';
 
-const BASE_URL =
-  /* v8 ignore next */
-typeof DELCOM_BASEURL !== 'undefined'
-    ? DELCOM_BASEURL
-    : 'https://open-api.delcom.org/api/v1';
+const BASE_URL = getBaseUrl();
 
 const userApi = (() => {
   async function getUsers() {
     const response = await apiHelper.fetchWithAuth(`${BASE_URL}/users`);
     const responseJson = await response.json();
-    const { success, message, data } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal memuat pengguna');
-    }
-
+    const { data } = parseApiResponse(responseJson, 'Gagal memuat pengguna');
     return data.users;
   }
 
   async function getUserById(id) {
     const response = await apiHelper.fetchWithAuth(`${BASE_URL}/users/${id}`);
     const responseJson = await response.json();
-    const { success, message, data } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal memuat detail pengguna');
-    }
-
+    const { data } = parseApiResponse(responseJson, 'Gagal memuat detail pengguna');
     return data.user;
   }
 
   async function getProfile() {
     const response = await apiHelper.fetchWithAuth(`${BASE_URL}/users/me`);
     const responseJson = await response.json();
-    const { success, message, data } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal memuat profil');
-    }
-
+    const { data } = parseApiResponse(responseJson, 'Gagal memuat profil');
     return data.user;
   }
 
@@ -51,12 +33,7 @@ const userApi = (() => {
     });
 
     const responseJson = await response.json();
-    const { success, message } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal memperbarui profil');
-    }
-
+    const { message } = parseApiResponse(responseJson, 'Gagal memperbarui profil');
     return message;
   }
 
@@ -70,12 +47,7 @@ const userApi = (() => {
     });
 
     const responseJson = await response.json();
-    const { success, message } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal mengunggah foto profil');
-    }
-
+    const { message } = parseApiResponse(responseJson, 'Gagal mengunggah foto profil');
     return message;
   }
 
@@ -86,12 +58,7 @@ const userApi = (() => {
     });
 
     const responseJson = await response.json();
-    const { success, message } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal mengubah kata sandi');
-    }
-
+    const { message } = parseApiResponse(responseJson, 'Gagal mengubah kata sandi');
     return message;
   }
 

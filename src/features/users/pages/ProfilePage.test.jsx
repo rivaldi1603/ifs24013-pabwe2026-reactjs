@@ -156,4 +156,63 @@ describe('ProfilePage', () => {
     expect(mockDispatch).toHaveBeenCalledWith(setIsChangeProfilePhotoActionCreator(false));
     expect(mockDispatch).toHaveBeenCalledWith(setIsChangeProfilePasswordActionCreator(false));
   });
+
+  it('fails password change when fields are whitespace only', () => {
+    renderComponent();
+    fireEvent.change(screen.getByLabelText('Kata Sandi Saat Ini'), { target: { value: '   ' } });
+    fireEvent.change(screen.getByLabelText('Kata Sandi Baru'), { target: { value: '   ' } });
+    const form = screen.getByRole('button', { name: /Perbarui Kata Sandi/i }).closest('form');
+    fireEvent.submit(form);
+    expect(showErrorDialog).toHaveBeenCalledWith(
+      'Validasi Gagal',
+      'Kata sandi lama dan kata sandi baru wajib diisi!'
+    );
+    expect(asyncPutProfilePassword).not.toHaveBeenCalled();
+  });
+
+  it('fails password change when only new password is whitespace', () => {
+    renderComponent();
+    fireEvent.change(screen.getByLabelText('Kata Sandi Saat Ini'), { target: { value: 'oldpass' } });
+    fireEvent.change(screen.getByLabelText('Kata Sandi Baru'), { target: { value: '  ' } });
+    fireEvent.submit(screen.getByRole('button', { name: /Perbarui Kata Sandi/i }).closest('form'));
+    expect(showErrorDialog).toHaveBeenCalled();
+    expect(asyncPutProfilePassword).not.toHaveBeenCalled();
+  });
+
+  it('updates email and validates whitespace email', () => {
+    renderComponent();
+    const emailInput = screen.getByLabelText('Alamat Email');
+    fireEvent.change(emailInput, { target: { value: 'new@example.com' } });
+    expect(emailInput).toHaveValue('new@example.com');
+
+    fireEvent.change(emailInput, { target: { value: '   ' } });
+    fireEvent.submit(screen.getByRole('button', { name: /Simpan Perubahan/i }).closest('form'));
+    expect(showErrorDialog).toHaveBeenCalledWith('Validasi Gagal', 'Nama dan email wajib diisi!');
+    expect(asyncPutProfile).not.toHaveBeenCalled();
+  });
+
+  it('uses profile photo when present', () => {
+    mockState.profile = { name: 'A', email: 'a@a.com', photo: 'http://img/a.png' };
+    renderComponent();
+    expect(screen.getByAltText('A')).toHaveAttribute('src', 'http://img/a.png');
+  });
+
+  it('falls back when profile has no name/email', () => {
+    mockState.profile = { id: 1 };
+    const { container } = renderComponent();
+    expect(screen.getByLabelText('Nama Lengkap')).toHaveValue('');
+    expect(screen.getByLabelText('Alamat Email')).toHaveValue('');
+    expect(container.querySelector('img').getAttribute('src')).toContain('name=User');
+  });
+
+  it('resets photo file when selection is cleared', async () => {
+    renderComponent();
+    const fileInput = screen.getByLabelText('Pilih Foto Profil');
+    fireEvent.change(fileInput, { target: { files: [] } });
+    await userEvent.click(screen.getByRole('button', { name: /Unggah Foto/i }));
+    expect(showErrorDialog).toHaveBeenCalledWith(
+      'Validasi Gagal',
+      'Pilih berkas foto terlebih dahulu!'
+    );
+  });
 });

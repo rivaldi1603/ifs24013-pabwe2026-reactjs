@@ -37,7 +37,9 @@ describe('NavbarComponent', () => {
     vi.clearAllMocks();
     useDispatch.mockReturnValue(mockDispatch);
     useNavigate.mockReturnValue(mockNavigate);
-    useSelector.mockReturnValue({ name: 'Test User', email: 'test@example.com', photo: '' });
+    useSelector.mockImplementation((selector) =>
+      selector({ profile: { name: 'Test User', email: 'test@example.com', photo: '' } })
+    );
   });
 
   const renderComponent = () =>
@@ -109,5 +111,25 @@ describe('NavbarComponent', () => {
     expect(showConfirmDialog).toHaveBeenCalled();
     expect(mockDispatch).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it('renders fallbacks when profile is empty', async () => {
+    useSelector.mockImplementation((selector) => selector({ profile: null }));
+    renderComponent();
+    expect(screen.getByText('User')).toBeInTheDocument();
+    expect(screen.getByAltText('user photo')).toHaveAttribute(
+      'src',
+      'https://ui-avatars.com/api/?name=U'
+    );
+    await userEvent.click(screen.getByRole('button', { name: /user photo/i }));
+    expect(screen.getAllByText('-')).toHaveLength(2);
+  });
+
+  it('uses profile photo when available', () => {
+    useSelector.mockImplementation((selector) =>
+      selector({ profile: { name: 'A', email: 'a@a.com', photo: 'http://img/p.png' } })
+    );
+    renderComponent();
+    expect(screen.getByAltText('user photo')).toHaveAttribute('src', 'http://img/p.png');
   });
 });

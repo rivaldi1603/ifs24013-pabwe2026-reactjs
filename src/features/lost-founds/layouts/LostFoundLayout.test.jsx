@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import LostFoundLayout from './LostFoundLayout';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -83,5 +83,23 @@ describe('LostFoundLayout', () => {
     });
     renderComponent();
     expect(screen.getByText('Test')).toBeInTheDocument(); // Navbar has the name
+  });
+
+  it('opens sidebar via navbar toggle and closes it via overlay', async () => {
+    apiHelper.getAccessToken.mockReturnValue('token');
+    useSelector.mockImplementation((selector) =>
+      selector({ isProfile: true, profile: { name: 'Test' } })
+    );
+    const { container } = renderComponent();
+    const aside = screen.getByLabelText('Sidebar');
+    expect(aside.className).toContain('-translate-x-full');
+
+    fireEvent.click(screen.getAllByRole('button')[0]); // hamburger -> toggleSidebar
+    expect(aside.className).not.toContain('-translate-x-full');
+    const overlay = container.querySelector('.bg-slate-900\\/50');
+    expect(overlay).toBeInTheDocument();
+
+    fireEvent.click(overlay); // closeSidebar
+    expect(aside.className).toContain('-translate-x-full');
   });
 });

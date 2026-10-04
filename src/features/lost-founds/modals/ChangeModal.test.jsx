@@ -30,7 +30,7 @@ describe('ChangeModal', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockReturnValue(false); // isLostFoundChange false
+    useSelector.mockImplementation((selector) => selector({ isLostFoundChange: false }));
   });
 
   const renderComponent = (isOpen = true, lf = mockLostFound) =>
@@ -94,5 +94,48 @@ describe('ChangeModal', () => {
     const cancelBtn = screen.getByRole('button', { name: /Batal/i });
     await userEvent.click(cancelBtn);
     expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('renders nothing when open but lostFound is null', () => {
+    const { container } = renderComponent(true, null);
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('uses fallbacks for empty fields, toggles back to lost and unchecks completion', async () => {
+    mockDispatch.mockResolvedValue(true);
+    render(<ChangeModal isOpen onClose={mockOnClose} lostFound={{ id: 2, is_completed: 1 }} />);
+
+    const titleInput = screen.getByLabelText('Judul Laporan');
+    const descInput = screen.getByLabelText('Deskripsi Detail');
+    const radioLost = screen.getByLabelText('Kehilangan (Lost)');
+    const radioFound = screen.getByLabelText('Menemukan (Found)');
+    const checkbox = screen.getByLabelText(/Tandai sebagai selesai/i);
+
+    expect(titleInput).toHaveValue('');
+    expect(descInput).toHaveValue('');
+    expect(radioLost).toBeChecked();
+    expect(checkbox).toBeChecked();
+
+    await userEvent.click(radioFound);
+    await userEvent.click(radioLost);
+    expect(radioLost).toBeChecked();
+    await userEvent.click(checkbox);
+    await userEvent.type(titleInput, 'T');
+    await userEvent.type(descInput, 'D');
+    await userEvent.click(screen.getByRole('button', { name: /Simpan Perubahan/i }));
+
+    expect(asyncPutLostFound).toHaveBeenCalledWith(2, {
+      title: 'T',
+      description: 'D',
+      status: 'lost',
+      is_completed: 0,
+    });
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('shows loading spinner', () => {
+    useSelector.mockImplementation((selector) => selector({ isLostFoundChange: true }));
+    const { container } = renderComponent();
+    expect(container.querySelector('.animate-spin')).toBeInTheDocument();
   });
 });

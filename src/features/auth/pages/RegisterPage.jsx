@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import useInput from '../../../hooks/useInput';
 import { asyncSetAuthRegister } from '../states/action';
-import { IconMail, IconLock, IconUser, IconEye, IconEyeOff, IconUserPlus } from '@tabler/icons-react';
+import { showErrorDialog } from '../../../helpers/toolsHelper';
+import { IconMail, IconLock, IconLockCheck, IconUser, IconEye, IconEyeOff, IconUserPlus } from '@tabler/icons-react';
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -13,15 +14,22 @@ function RegisterPage() {
   const [name, onNameChange] = useInput('');
   const [email, onEmailChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
+  const [passwordConfirmation, onPasswordConfirmationChange] = useInput('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const isMismatch = passwordConfirmation !== '' && password !== passwordConfirmation;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    /* v8 ignore next */
-if (!name || !email || !password) return;
-    
+    if (password !== passwordConfirmation) {
+      showErrorDialog('Registrasi Gagal', 'Konfirmasi kata sandi tidak cocok.');
+      return;
+    }
+
     // We can await the dispatch since we made it return a boolean indicating success
-    const success = await dispatch(asyncSetAuthRegister({ name, email, password }));
+    const success = await dispatch(
+      asyncSetAuthRegister({ name, email, password, passwordConfirmation })
+    );
     if (success) {
       navigate('/auth/login');
     }
@@ -95,6 +103,7 @@ if (!name || !email || !password) return;
             />
             <button
               type="button"
+              aria-label="Tampilkan kata sandi"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none"
             >
@@ -103,9 +112,38 @@ if (!name || !email || !password) return;
           </div>
         </div>
 
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-1.5" htmlFor="passwordConfirmation">
+            Konfirmasi Kata Sandi
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <IconLockCheck size={20} />
+            </div>
+            <input
+              id="passwordConfirmation"
+              type={showPassword ? 'text' : 'password'}
+              value={passwordConfirmation}
+              onChange={onPasswordConfirmationChange}
+              placeholder="Ulangi kata sandi"
+              required
+              minLength={6}
+              aria-invalid={isMismatch}
+              className={`block w-full pl-10 pr-3 py-2.5 border rounded-lg focus:ring-2 outline-none transition-all text-sm ${
+                isMismatch
+                  ? 'border-red-400 focus:ring-red-500 focus:border-red-500'
+                  : 'border-slate-300 focus:ring-blue-600 focus:border-blue-600'
+              }`}
+            />
+          </div>
+          {isMismatch && (
+            <p className="mt-1.5 text-xs text-red-600">Kata sandi tidak cocok.</p>
+          )}
+        </div>
+
         <button
           type="submit"
-          disabled={isAuthRegister || !name || !email || !password}
+          disabled={isAuthRegister || !name || !email || !password || !passwordConfirmation}
           className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed mt-4 shadow-md shadow-blue-500/30"
         >
           {isAuthRegister ? (

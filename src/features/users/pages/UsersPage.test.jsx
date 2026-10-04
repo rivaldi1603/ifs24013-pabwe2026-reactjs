@@ -20,10 +20,14 @@ describe('UsersPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockReturnValue([
-      { id: 1, name: 'Alice', email: 'alice@example.com', created_at: '2023-01-01' },
-      { id: 2, name: 'Bob', email: 'bob@example.com', created_at: null },
-    ]);
+    useSelector.mockImplementation((selector) =>
+      selector({
+        users: [
+          { id: 1, name: 'Alice', email: 'alice@example.com', created_at: '2023-01-01' },
+          { id: 2, name: 'Bob', email: 'bob@example.com', created_at: null },
+        ],
+      })
+    );
   });
 
   const renderComponent = () => render(<UsersPage />);
@@ -58,5 +62,27 @@ describe('UsersPage', () => {
     await userEvent.type(searchInput, 'Zzz');
     
     expect(screen.getByText('Tidak ada pengguna yang ditemukan.')).toBeInTheDocument();
+  });
+
+  it('handles photo, missing name and email-based search', async () => {
+    useSelector.mockImplementation((selector) =>
+      selector({
+        users: [
+          { id: 3, name: 'Carol', email: 'carol@example.com', photo: 'http://img/c.png' },
+          { id: 4, email: 'noname@example.com' },
+          { id: 5, name: 'Dave' },
+        ],
+      })
+    );
+    const { container } = renderComponent();
+    await waitFor(() => expect(screen.getByText('Carol')).toBeInTheDocument());
+    expect(screen.getByAltText('Carol')).toHaveAttribute('src', 'http://img/c.png');
+    const imgs = container.querySelectorAll('img');
+    expect(imgs[1].getAttribute('src')).toContain('name=User');
+
+    await userEvent.type(screen.getByPlaceholderText(/Cari nama atau email/i), 'noname');
+    expect(screen.getByText('noname@example.com')).toBeInTheDocument();
+    expect(screen.queryByText('Carol')).not.toBeInTheDocument();
+    expect(screen.queryByText('Dave')).not.toBeInTheDocument();
   });
 });

@@ -5,6 +5,7 @@ import RegisterPage from './RegisterPage';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncSetAuthRegister } from '../states/action';
+import { showErrorDialog } from '../../../helpers/toolsHelper';
 
 vi.mock('react-redux', () => ({
   useDispatch: vi.fn(),
@@ -23,15 +24,22 @@ vi.mock('../states/action', () => ({
   asyncSetAuthRegister: vi.fn(),
 }));
 
+vi.mock('../../../helpers/toolsHelper', () => ({
+  showErrorDialog: vi.fn(),
+}));
+
 describe('RegisterPage', () => {
   const mockDispatch = vi.fn();
   const mockNavigate = vi.fn();
+  let isAuthRegister = false;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    isAuthRegister = false;
     useDispatch.mockReturnValue(mockDispatch);
     useNavigate.mockReturnValue(mockNavigate);
-    useSelector.mockReturnValue(false); // isAuthRegister false
+    // Execute the real selector so it is covered
+    useSelector.mockImplementation((selector) => selector({ isAuthRegister }));
   });
 
   const renderComponent = () =>
@@ -41,95 +49,115 @@ describe('RegisterPage', () => {
       </MemoryRouter>
     );
 
-  it('should render the form', () => {
+  const getInputs = () => ({
+    nameInput: screen.getByPlaceholderText('Nama lengkap Anda'),
+    emailInput: screen.getByPlaceholderText('nama@email.com'),
+    passwordInput: screen.getByPlaceholderText('Minimal 6 karakter'),
+    confirmInput: screen.getByPlaceholderText('Ulangi kata sandi'),
+    submitButton: screen.getByRole('button', { name: /Daftar/i }),
+  });
+
+  const fillForm = async (password = 'password', confirmation = 'password') => {
+    const inputs = getInputs();
+    await userEvent.type(inputs.nameInput, 'Test Name');
+    await userEvent.type(inputs.emailInput, 'test@test.com');
+    await userEvent.type(inputs.passwordInput, password);
+    await userEvent.type(inputs.confirmInput, confirmation);
+    return inputs;
+  };
+
+  it('should render the form including password confirmation', () => {
     renderComponent();
-    expect(screen.getByPlaceholderText('Nama lengkap Anda')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('nama@email.com')).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Minimal 6 karakter')).toBeInTheDocument();
+    const { nameInput, emailInput, passwordInput, confirmInput } = getInputs();
+    expect(nameInput).toBeInTheDocument();
+    expect(emailInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+    expect(confirmInput).toBeInTheDocument();
   });
 
   it('should allow typing in inputs', async () => {
     renderComponent();
-    const nameInput = screen.getByPlaceholderText('Nama lengkap Anda');
-    const emailInput = screen.getByPlaceholderText('nama@email.com');
-    const passwordInput = screen.getByPlaceholderText('Minimal 6 karakter');
-
-    await userEvent.type(nameInput, 'Test Name');
-    await userEvent.type(emailInput, 'test@test.com');
-    await userEvent.type(passwordInput, 'password');
-
+    const { nameInput, emailInput, passwordInput, confirmInput } = await fillForm();
     expect(nameInput).toHaveValue('Test Name');
     expect(emailInput).toHaveValue('test@test.com');
     expect(passwordInput).toHaveValue('password');
+    expect(confirmInput).toHaveValue('password');
+    expect(screen.queryByText('Kata sandi tidak cocok.')).not.toBeInTheDocument();
   });
 
   it('should call dispatch and navigate on success', async () => {
-    asyncSetAuthRegister.mockReturnValue(() => Promise.resolve(true));
+    asyncSetAuthRegister.mockReturnValue({ type: 'REGISTER' });
     mockDispatch.mockResolvedValue(true);
     renderComponent();
 
-    const nameInput = screen.getByPlaceholderText('Nama lengkap Anda');
-    const emailInput = screen.getByPlaceholderText('nama@email.com');
-    const passwordInput = screen.getByPlaceholderText('Minimal 6 karakter');
-    const submitButton = screen.getByRole('button', { name: /Daftar/i });
-
-    await userEvent.type(nameInput, 'Test Name');
-    await userEvent.type(emailInput, 'test@test.com');
-    await userEvent.type(passwordInput, 'password');
+    const { submitButton } = await fillForm();
     await userEvent.click(submitButton);
 
-    expect(mockDispatch).toHaveBeenCalled();
     expect(asyncSetAuthRegister).toHaveBeenCalledWith({
       name: 'Test Name',
       email: 'test@test.com',
       password: 'password',
+      passwordConfirmation: 'password',
     });
+    expect(mockDispatch).toHaveBeenCalled();
     expect(mockNavigate).toHaveBeenCalledWith('/auth/login');
   });
 
   it('should not navigate on fail', async () => {
-    asyncSetAuthRegister.mockReturnValue(() => Promise.resolve(false));
+    asyncSetAuthRegister.mockReturnValue({ type: 'REGISTER' });
     mockDispatch.mockResolvedValue(false);
     renderComponent();
 
-    const nameInput = screen.getByPlaceholderText('Nama lengkap Anda');
-    const emailInput = screen.getByPlaceholderText('nama@email.com');
-    const passwordInput = screen.getByPlaceholderText('Minimal 6 karakter');
-    const submitButton = screen.getByRole('button', { name: /Daftar/i });
-
-    await userEvent.type(nameInput, 'Test Name');
-    await userEvent.type(emailInput, 'test@test.com');
-    await userEvent.type(passwordInput, 'password');
+    const { submitButton } = await fillForm();
     await userEvent.click(submitButton);
 
     expect(mockDispatch).toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 
-  it('does not dispatch if fields are empty', async () => {
+  it('shows mismatch hint and blocks submit when passwords differ', async () => {
     renderComponent();
-    const submitButton = screen.getByRole('button', { name: /Daftar/i });
+    const { submitButton, confirmInput } = await fillForm('password', 'different');
+
+    expect(screen.getByText('Kata sandi tidak cocok.')).toBeInTheDocument();
+    expect(confirmInput).toHaveAttribute('aria-invalid', 'true');
+
+    await userEvent.click(submitButton);
+    expect(showErrorDialog).toHaveBeenCalledWith(
+      'Registrasi Gagal',
+      'Konfirmasi kata sandi tidak cocok.'
+    );
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  it('keeps submit disabled when fields are empty', async () => {
+    renderComponent();
+    const { submitButton } = getInputs();
+    expect(submitButton).toBeDisabled();
     await userEvent.click(submitButton);
     expect(mockDispatch).not.toHaveBeenCalled();
   });
 
-  it('should toggle password visibility', async () => {
+  it('should toggle password visibility for both fields', async () => {
     renderComponent();
-    // Use type="button" to avoid picking the submit button
-    const toggleBtn = screen.getByRole('button', { name: '' });
-    const passwordInput = screen.getByPlaceholderText('Minimal 6 karakter');
-    
+    const toggleBtn = screen.getByRole('button', { name: 'Tampilkan kata sandi' });
+    const { passwordInput, confirmInput } = getInputs();
+
     expect(passwordInput).toHaveAttribute('type', 'password');
+    expect(confirmInput).toHaveAttribute('type', 'password');
     await userEvent.click(toggleBtn);
     expect(passwordInput).toHaveAttribute('type', 'text');
+    expect(confirmInput).toHaveAttribute('type', 'text');
     await userEvent.click(toggleBtn);
     expect(passwordInput).toHaveAttribute('type', 'password');
   });
 
   it('should show loading state', () => {
-    useSelector.mockReturnValue(true); // isAuthRegister true
+    isAuthRegister = true;
     renderComponent();
-    const submitBtn = screen.getAllByRole('button')[1];
+    const buttons = screen.getAllByRole('button');
+    const submitBtn = buttons[buttons.length - 1];
     expect(submitBtn).toBeDisabled();
+    expect(submitBtn.querySelector('.animate-spin')).toBeInTheDocument();
   });
 });

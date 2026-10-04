@@ -1,11 +1,8 @@
-/* global DELCOM_BASEURL */
 import apiHelper from '../../../helpers/apiHelper';
+import { getBaseUrl } from '../../../helpers/baseUrl';
+import { parseApiResponse } from '../../../helpers/responseHelper';
 
-const BASE_URL =
-  /* v8 ignore next */
-typeof DELCOM_BASEURL !== 'undefined'
-    ? DELCOM_BASEURL
-    : 'https://open-api.delcom.org/api/v1';
+const BASE_URL = getBaseUrl();
 
 const lostFoundApi = (() => {
   async function getLostFounds(params = {}) {
@@ -22,11 +19,7 @@ const lostFoundApi = (() => {
 
     const response = await apiHelper.fetchWithAuth(url);
     const responseJson = await response.json();
-    const { success, message, data } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal mengambil daftar Lost & Founds');
-    }
+    const { data } = parseApiResponse(responseJson, 'Gagal mengambil daftar Lost & Founds');
 
     return data.lost_founds || [];
   }
@@ -36,11 +29,7 @@ const lostFoundApi = (() => {
       `${BASE_URL}/lost-founds/${lostFoundId}`
     );
     const responseJson = await response.json();
-    const { success, message, data } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal mengambil detail laporan');
-    }
+    const { data } = parseApiResponse(responseJson, 'Gagal mengambil detail laporan');
 
     return data.lost_found || null;
   }
@@ -51,11 +40,7 @@ const lostFoundApi = (() => {
       body: JSON.stringify({ title, description, status }),
     });
     const responseJson = await response.json();
-    const { success, message, data } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal menambahkan laporan');
-    }
+    const { message, data } = parseApiResponse(responseJson, 'Gagal menambahkan laporan');
 
     return { message, data };
   }
@@ -77,11 +62,7 @@ const lostFoundApi = (() => {
       }
     );
     const responseJson = await response.json();
-    const { success, message } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal memperbarui laporan');
-    }
+    const { message } = parseApiResponse(responseJson, 'Gagal memperbarui laporan');
 
     return message;
   }
@@ -98,11 +79,7 @@ const lostFoundApi = (() => {
       }
     );
     const responseJson = await response.json();
-    const { success, message } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal mengunggah cover laporan');
-    }
+    const { message } = parseApiResponse(responseJson, 'Gagal mengunggah cover laporan');
 
     return message;
   }
@@ -115,11 +92,7 @@ const lostFoundApi = (() => {
       }
     );
     const responseJson = await response.json();
-    const { success, message } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal menghapus laporan');
-    }
+    const { message } = parseApiResponse(responseJson, 'Gagal menghapus laporan');
 
     return message;
   }
@@ -136,11 +109,7 @@ const lostFoundApi = (() => {
 
     const response = await apiHelper.fetchWithAuth(url);
     const responseJson = await response.json();
-    const { success, message, data } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal mengambil statistik harian');
-    }
+    const { data } = parseApiResponse(responseJson, 'Gagal mengambil statistik harian');
 
     return data;
   }
@@ -157,11 +126,7 @@ const lostFoundApi = (() => {
 
     const response = await apiHelper.fetchWithAuth(url);
     const responseJson = await response.json();
-    const { success, message, data } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal mengambil statistik bulanan');
-    }
+    const { data } = parseApiResponse(responseJson, 'Gagal mengambil statistik bulanan');
 
     return data;
   }

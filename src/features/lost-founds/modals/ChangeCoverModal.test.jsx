@@ -27,7 +27,7 @@ describe('ChangeCoverModal', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockReturnValue(false); // isLostFoundChangeCover false
+    useSelector.mockImplementation((selector) => selector({ isLostFoundChangeCover: false }));
     // Mock URL.createObjectURL
     global.URL.createObjectURL = vi.fn(() => 'mock-url');
   });
@@ -90,5 +90,44 @@ describe('ChangeCoverModal', () => {
     const cancelBtn = screen.getByRole('button', { name: /Batal/i });
     await userEvent.click(cancelBtn);
     expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('ignores empty file selection', () => {
+    renderComponent();
+    fireEvent.change(document.getElementById('dropzone-file'), { target: { files: [] } });
+    expect(showErrorDialog).not.toHaveBeenCalled();
+    expect(screen.queryByAltText('Preview')).not.toBeInTheDocument();
+  });
+
+  it('does not dispatch when form is force-submitted without a file', () => {
+    const { container } = renderComponent();
+    fireEvent.submit(container.querySelector('form'));
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  it('does not dispatch when lostFoundId is missing', async () => {
+    const { container } = render(
+      <ChangeCoverModal isOpen onClose={mockOnClose} lostFoundId={null} />
+    );
+    const file = new File(['image'], 'a.png', { type: 'image/png' });
+    await userEvent.upload(document.getElementById('dropzone-file'), file);
+    fireEvent.submit(container.querySelector('form'));
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  it('uploads without onSuccess callback', async () => {
+    mockDispatch.mockResolvedValue(true);
+    render(<ChangeCoverModal isOpen onClose={mockOnClose} lostFoundId={2} />);
+    const file = new File(['image'], 'a.png', { type: 'image/png' });
+    await userEvent.upload(document.getElementById('dropzone-file'), file);
+    await userEvent.click(screen.getByRole('button', { name: /Unggah Foto/i }));
+    expect(asyncPostLostFoundCover).toHaveBeenCalledWith(2, file);
+    expect(mockOnClose).toHaveBeenCalled();
+  });
+
+  it('shows loading spinner while uploading', () => {
+    useSelector.mockImplementation((selector) => selector({ isLostFoundChangeCover: true }));
+    const { container } = renderComponent();
+    expect(container.querySelector('.animate-spin')).toBeInTheDocument();
   });
 });

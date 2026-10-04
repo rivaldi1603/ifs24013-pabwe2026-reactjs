@@ -53,11 +53,11 @@ function asyncSetAuthLogin({ email, password }) {
   };
 }
 
-function asyncSetAuthRegister({ name, email, password }) {
+function asyncSetAuthRegister({ name, email, password, passwordConfirmation }) {
   return async (dispatch) => {
     dispatch(setIsAuthRegisterActionCreator(true));
     try {
-      const message = await authApi.postRegister({ name, email, password });
+      const message = await authApi.postRegister({ name, email, password, passwordConfirmation });
       dispatch(setIsAuthRegisterActionCreator(false));
       await showSuccessDialog('Registrasi Berhasil', message);
       return true; // Used to redirect to login

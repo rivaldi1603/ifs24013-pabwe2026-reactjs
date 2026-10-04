@@ -41,4 +41,18 @@ describe('Base URL Configuration', () => {
       'https://custom-api.com/api/v1/lost-founds/1'
     );
   });
+
+  it('getBaseUrl returns DELCOM_BASEURL when defined', async () => {
+    const { getBaseUrl } = await import('./baseUrl');
+    expect(getBaseUrl()).toBe('https://custom-api.com/api/v1');
+  });
+
+  it('getBaseUrl falls back to default URL when DELCOM_BASEURL is undefined', async () => {
+    const original = globalThis.DELCOM_BASEURL;
+    delete globalThis.DELCOM_BASEURL;
+    const { getBaseUrl, DEFAULT_BASE_URL } = await import('./baseUrl');
+    expect(getBaseUrl()).toBe(DEFAULT_BASE_URL);
+    expect(DEFAULT_BASE_URL).toBe('https://open-api.delcom.org/api/v1');
+    globalThis.DELCOM_BASEURL = original;
+  });
 });

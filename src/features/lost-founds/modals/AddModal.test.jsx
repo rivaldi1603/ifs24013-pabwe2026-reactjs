@@ -22,7 +22,7 @@ describe('AddModal', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockReturnValue(false); // isLostFoundAdd false
+    useSelector.mockImplementation((selector) => selector({ isLostFoundAdd: false }));
   });
 
   const renderComponent = (isOpen = true) =>
@@ -53,6 +53,20 @@ describe('AddModal', () => {
     expect(descInput).toHaveValue('Test Desc');
     expect(radioFound).toBeChecked();
     expect(radioLost).not.toBeChecked();
+
+    await userEvent.click(radioLost);
+    expect(radioLost).toBeChecked();
+    expect(radioFound).not.toBeChecked();
+  });
+
+  it('submits without onSuccess callback', async () => {
+    mockDispatch.mockResolvedValue(true);
+    render(<AddModal isOpen onClose={mockOnClose} />);
+    await userEvent.type(screen.getByLabelText('Judul Laporan'), 'T');
+    await userEvent.type(screen.getByLabelText('Deskripsi Detail'), 'D');
+    await userEvent.click(screen.getByRole('button', { name: /Simpan Laporan/i }));
+    expect(mockDispatch).toHaveBeenCalled();
+    expect(mockOnClose).toHaveBeenCalled();
   });
 
   it('does not dispatch if required fields missing', async () => {
@@ -80,7 +94,7 @@ describe('AddModal', () => {
   });
 
   it('shows loading state when submitting', () => {
-    useSelector.mockReturnValue(true);
+    useSelector.mockImplementation((selector) => selector({ isLostFoundAdd: true }));
     renderComponent();
     // Use getAllByRole to get submit button
     const buttons = screen.getAllByRole('button');

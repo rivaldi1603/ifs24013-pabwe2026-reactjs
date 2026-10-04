@@ -18,6 +18,20 @@ describe('authApi', () => {
       expect(response).toBe('Register success');
     });
 
+    it('sends explicit password_confirmation and accepts status "success"', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({
+        json: () => Promise.resolve({ status: 'success', message: 'Berhasil' }),
+      });
+      const response = await authApi.postRegister({
+        name: 'n', email: 'e', password: 'secret123', passwordConfirmation: 'secret123',
+      });
+      expect(response).toBe('Berhasil');
+      const body = JSON.parse(apiHelper.fetchWithAuth.mock.calls[0][1].body);
+      expect(body).toEqual({
+        name: 'n', email: 'e', password: 'secret123', password_confirmation: 'secret123',
+      });
+    });
+
     it('should throw error on fail', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: false, message: 'Register failed' }),

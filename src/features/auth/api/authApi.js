@@ -1,26 +1,23 @@
-/* global DELCOM_BASEURL */
 import apiHelper from '../../../helpers/apiHelper';
+import { getBaseUrl } from '../../../helpers/baseUrl';
+import { parseApiResponse } from '../../../helpers/responseHelper';
 
-const BASE_URL =
-  /* v8 ignore next */
-typeof DELCOM_BASEURL !== 'undefined'
-    ? DELCOM_BASEURL
-    : 'https://open-api.delcom.org/api/v1';
+const BASE_URL = getBaseUrl();
 
 const authApi = (() => {
-  async function postRegister({ name, email, password }) {
+  async function postRegister({ name, email, password, passwordConfirmation }) {
     const response = await apiHelper.fetchWithAuth(`${BASE_URL}/auth/register`, {
       method: 'POST',
-      body: JSON.stringify({ name, email, password, password_confirmation: password }),
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation ?? password,
+      }),
     });
 
     const responseJson = await response.json();
-    const { success, message } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal melakukan registrasi');
-    }
-
+    const { message } = parseApiResponse(responseJson, 'Gagal melakukan registrasi');
     return message;
   }
 
@@ -31,12 +28,7 @@ const authApi = (() => {
     });
 
     const responseJson = await response.json();
-    const { success, message, data } = responseJson;
-
-    if (!success) {
-      throw new Error(message || 'Gagal melakukan login');
-    }
-
+    const { data } = parseApiResponse(responseJson, 'Gagal melakukan login');
     return data;
   }
 

@@ -12,7 +12,7 @@ const userApi = (() => {
     const responseJson = await response.json();
     const { success, message, data } = responseJson;
 
-    if (!response.ok) {
+    if (!success) {
       throw new Error(message || 'Gagal memuat pengguna');
     }
 
@@ -24,7 +24,7 @@ const userApi = (() => {
     const responseJson = await response.json();
     const { success, message, data } = responseJson;
 
-    if (!response.ok) {
+    if (!success) {
       throw new Error(message || 'Gagal memuat detail pengguna');
     }
 
@@ -36,7 +36,7 @@ const userApi = (() => {
     const responseJson = await response.json();
     const { success, message, data } = responseJson;
 
-    if (!response.ok) {
+    if (!success) {
       throw new Error(message || 'Gagal memuat profil');
     }
 
@@ -52,7 +52,7 @@ const userApi = (() => {
     const responseJson = await response.json();
     const { success, message } = responseJson;
 
-    if (!response.ok) {
+    if (!success) {
       throw new Error(message || 'Gagal memperbarui profil');
     }
 
@@ -71,7 +71,7 @@ const userApi = (() => {
     const responseJson = await response.json();
     const { success, message } = responseJson;
 
-    if (!response.ok) {
+    if (!success) {
       throw new Error(message || 'Gagal mengunggah foto profil');
     }
 
@@ -87,7 +87,7 @@ const userApi = (() => {
     const responseJson = await response.json();
     const { success, message } = responseJson;
 
-    if (!response.ok) {
+    if (!success) {
       throw new Error(message || 'Gagal mengubah kata sandi');
     }
 

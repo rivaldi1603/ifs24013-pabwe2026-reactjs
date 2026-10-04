@@ -80,6 +80,13 @@ describe('LoginPage Component', () => {
     expect(asyncSetAuthLogin).toHaveBeenCalledWith({ email: 'test@test.com', password: 'password' });
   });
 
+  it('does not dispatch if fields are empty', async () => {
+    renderComponent();
+    const submitButton = screen.getByRole('button', { name: /Masuk/i });
+    await userEvent.click(submitButton);
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
   it('should show loading state', () => {
     useSelector.mockReturnValue(true);
     renderComponent();

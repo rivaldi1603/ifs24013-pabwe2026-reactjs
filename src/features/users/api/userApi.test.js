@@ -10,6 +10,10 @@ describe('userApi', () => {
   });
 
   describe('getUsers', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(userApi.getUsers()).rejects.toThrow('Gagal memuat pengguna');
+    });
     it('should return users on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, data: { users: ['user1'] } }),
@@ -26,6 +30,10 @@ describe('userApi', () => {
   });
 
   describe('getUserById', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(userApi.getUserById('1')).rejects.toThrow('Gagal memuat detail pengguna');
+    });
     it('should return user on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, data: { user: 'user1' } }),
@@ -42,6 +50,10 @@ describe('userApi', () => {
   });
 
   describe('getProfile', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(userApi.getProfile()).rejects.toThrow('Gagal memuat profil');
+    });
     it('should return profile on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, data: { user: 'user1' } }),
@@ -58,6 +70,10 @@ describe('userApi', () => {
   });
 
   describe('putProfile', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(userApi.putProfile({})).rejects.toThrow('Gagal memperbarui profil');
+    });
     it('should return message on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, message: 'success' }),
@@ -74,6 +90,10 @@ describe('userApi', () => {
   });
 
   describe('postProfilePhoto', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(userApi.postProfilePhoto(new File([''], 'p.png'))).rejects.toThrow('Gagal mengunggah foto profil');
+    });
     it('should return message on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, message: 'success' }),
@@ -90,6 +110,10 @@ describe('userApi', () => {
   });
 
   describe('putProfilePassword', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(userApi.putProfilePassword({})).rejects.toThrow('Gagal mengubah kata sandi');
+    });
     it('should return message on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, message: 'success' }),

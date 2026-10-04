@@ -87,6 +87,32 @@ describe('RegisterPage', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/auth/login');
   });
 
+  it('should not navigate on fail', async () => {
+    asyncSetAuthRegister.mockReturnValue(() => Promise.resolve(false));
+    mockDispatch.mockResolvedValue(false);
+    renderComponent();
+
+    const nameInput = screen.getByPlaceholderText('Nama lengkap Anda');
+    const emailInput = screen.getByPlaceholderText('nama@email.com');
+    const passwordInput = screen.getByPlaceholderText('Minimal 6 karakter');
+    const submitButton = screen.getByRole('button', { name: /Daftar/i });
+
+    await userEvent.type(nameInput, 'Test Name');
+    await userEvent.type(emailInput, 'test@test.com');
+    await userEvent.type(passwordInput, 'password');
+    await userEvent.click(submitButton);
+
+    expect(mockDispatch).toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it('does not dispatch if fields are empty', async () => {
+    renderComponent();
+    const submitButton = screen.getByRole('button', { name: /Daftar/i });
+    await userEvent.click(submitButton);
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
   it('should toggle password visibility', async () => {
     renderComponent();
     // Use type="button" to avoid picking the submit button

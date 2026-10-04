@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>30/30</span>
+                <span class='fraction'>33/33</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>30/30</span>
+                <span class='fraction'>33/33</span>
             </div>
         
             
@@ -158,8 +158,7 @@
 <a name='L93'></a><a href='#L93'>93</a>
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -206,27 +205,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -235,12 +218,27 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -301,11 +299,11 @@ function asyncSetAuthLogin({ email, password }) {
       const data = await authApi.postLogin({ email, password });
       apiHelper.putAccessToken(data.token);
       dispatch(setAuthUserActionCreator(data.token)); // or data.user depending on API, but token is fine to trigger login.
-      await showSuccessDialog('Login Berhasil', 'Selamat datang!');
-    } catch (error) {
-      await showErrorDialog('Login Gagal', error.message);
-    } finally {
       dispatch(setIsAuthLoginActionCreator(false));
+      showSuccessDialog('Login Berhasil', 'Selamat datang!');
+    } catch (error) {
+      dispatch(setIsAuthLoginActionCreator(false));
+      showErrorDialog('Login Gagal', error.message);
     }
   };
 }
@@ -315,13 +313,13 @@ function asyncSetAuthRegister({ name, email, password }) {
     dispatch(setIsAuthRegisterActionCreator(true));
     try {
       const message = await authApi.postRegister({ name, email, password });
+      dispatch(setIsAuthRegisterActionCreator(false));
       await showSuccessDialog('Registrasi Berhasil', message);
       return true; // Used to redirect to login
     } catch (error) {
-      await showErrorDialog('Registrasi Gagal', error.message);
-      return false;
-    } finally {
       dispatch(setIsAuthRegisterActionCreator(false));
+      showErrorDialog('Registrasi Gagal', error.message);
+      return false;
     }
   };
 }
@@ -332,11 +330,10 @@ function asyncSetAuthLogout() {
     try {
       apiHelper.removeAccessToken();
       dispatch(setAuthUserActionCreator(null));
-      // await showSuccessDialog('Logout Berhasil', 'Anda telah keluar.');
-    } catch (error) {
-      await showErrorDialog('Logout Gagal', error.message);
-    } finally {
       dispatch(setIsAuthLogoutActionCreator(false));
+    } catch (error) {
+      dispatch(setIsAuthLogoutActionCreator(false));
+      showErrorDialog('Logout Gagal', error.message);
     }
   };
 }
@@ -358,7 +355,7 @@ export {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-04T17:18:16.457Z
+                at 2026-10-04T17:33:04.948Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

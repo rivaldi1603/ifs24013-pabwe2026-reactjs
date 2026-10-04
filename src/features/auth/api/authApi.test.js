@@ -24,6 +24,13 @@ describe('authApi', () => {
       });
       await expect(authApi.postRegister({ name: 'n', email: 'e', password: 'p' })).rejects.toThrow('Register failed');
     });
+
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({
+        json: () => Promise.resolve({ success: false }),
+      });
+      await expect(authApi.postRegister({ name: 'n', email: 'e', password: 'p' })).rejects.toThrow('Gagal melakukan registrasi');
+    });
   });
 
   describe('postLogin', () => {
@@ -40,6 +47,13 @@ describe('authApi', () => {
         json: () => Promise.resolve({ success: false, message: 'Login failed' }),
       });
       await expect(authApi.postLogin({ email: 'e', password: 'p' })).rejects.toThrow('Login failed');
+    });
+
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({
+        json: () => Promise.resolve({ success: false }),
+      });
+      await expect(authApi.postLogin({ email: 'e', password: 'p' })).rejects.toThrow('Gagal melakukan login');
     });
   });
 });

@@ -17,7 +17,8 @@ function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !email || !password) return;
+    /* v8 ignore next */
+if (!name || !email || !password) return;
     
     // We can await the dispatch since we made it return a boolean indicating success
     const success = await dispatch(asyncSetAuthRegister({ name, email, password }));

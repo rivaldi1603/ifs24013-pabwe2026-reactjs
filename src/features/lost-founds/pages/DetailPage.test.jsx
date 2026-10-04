@@ -97,6 +97,13 @@ describe('DetailPage', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 
+  it('navigates back when back button clicked', async () => {
+    useSelector.mockImplementation((selector) => selector({ isLostFound: true, lostFound: { id: 1, title: 'Item', author: {} }, profile: {} }));
+    renderComponent();
+    const backBtn = screen.getByRole('link', { name: /Kembali/i });
+    expect(backBtn).toHaveAttribute('href', '/');
+  });
+
   it('opens change modal and changes cover', async () => {
     useSelector.mockImplementation((selector) => {
       const state = {

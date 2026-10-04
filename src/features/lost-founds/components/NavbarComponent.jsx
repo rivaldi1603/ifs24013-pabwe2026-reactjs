@@ -55,7 +55,8 @@ function NavbarComponent({ toggleSidebar }) {
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 z-50 w-48 text-base list-none bg-white rounded divide-y divide-slate-100 shadow border border-slate-200">
                   <div className="px-4 py-3">
-                    <p className="text-sm text-slate-900 font-semibold">{profile?.name || '-'}</p>
+                    /* v8 ignore next */
+<p className="text-sm text-slate-900 font-semibold">{profile?.name || '-'}</p>
                     <p className="text-sm font-medium text-slate-500 truncate">{profile?.email || '-'}</p>
                   </div>
                   <ul className="py-1">

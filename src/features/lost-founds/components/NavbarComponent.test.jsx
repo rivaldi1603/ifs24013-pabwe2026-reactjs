@@ -62,6 +62,17 @@ describe('NavbarComponent', () => {
     expect(toggleSidebar).toHaveBeenCalled();
   });
 
+  it('closes dropdown when clicking Profil Saya', async () => {
+    renderComponent();
+    const avatarBtn = screen.getByRole('button', { name: /user photo/i });
+    await userEvent.click(avatarBtn);
+    expect(screen.getByText('Logout')).toBeInTheDocument();
+    
+    const profileLink = screen.getByText('Profil Saya');
+    await userEvent.click(profileLink);
+    expect(screen.queryByText('Logout')).not.toBeInTheDocument();
+  });
+
   it('toggles dropdown and handles logout', async () => {
     showConfirmDialog.mockResolvedValue(true); // User confirms logout
     

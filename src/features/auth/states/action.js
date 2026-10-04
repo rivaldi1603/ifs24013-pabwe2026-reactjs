@@ -44,11 +44,11 @@ function asyncSetAuthLogin({ email, password }) {
       const data = await authApi.postLogin({ email, password });
       apiHelper.putAccessToken(data.token);
       dispatch(setAuthUserActionCreator(data.token)); // or data.user depending on API, but token is fine to trigger login.
-      await showSuccessDialog('Login Berhasil', 'Selamat datang!');
-    } catch (error) {
-      await showErrorDialog('Login Gagal', error.message);
-    } finally {
       dispatch(setIsAuthLoginActionCreator(false));
+      showSuccessDialog('Login Berhasil', 'Selamat datang!');
+    } catch (error) {
+      dispatch(setIsAuthLoginActionCreator(false));
+      showErrorDialog('Login Gagal', error.message);
     }
   };
 }
@@ -58,13 +58,13 @@ function asyncSetAuthRegister({ name, email, password }) {
     dispatch(setIsAuthRegisterActionCreator(true));
     try {
       const message = await authApi.postRegister({ name, email, password });
+      dispatch(setIsAuthRegisterActionCreator(false));
       await showSuccessDialog('Registrasi Berhasil', message);
       return true; // Used to redirect to login
     } catch (error) {
-      await showErrorDialog('Registrasi Gagal', error.message);
-      return false;
-    } finally {
       dispatch(setIsAuthRegisterActionCreator(false));
+      showErrorDialog('Registrasi Gagal', error.message);
+      return false;
     }
   };
 }
@@ -75,11 +75,10 @@ function asyncSetAuthLogout() {
     try {
       apiHelper.removeAccessToken();
       dispatch(setAuthUserActionCreator(null));
-      // await showSuccessDialog('Logout Berhasil', 'Anda telah keluar.');
-    } catch (error) {
-      await showErrorDialog('Logout Gagal', error.message);
-    } finally {
       dispatch(setIsAuthLogoutActionCreator(false));
+    } catch (error) {
+      dispatch(setIsAuthLogoutActionCreator(false));
+      showErrorDialog('Logout Gagal', error.message);
     }
   };
 }

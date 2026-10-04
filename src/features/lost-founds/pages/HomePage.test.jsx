@@ -75,6 +75,13 @@ describe('HomePage', () => {
     expect(screen.queryByText('Found Item')).not.toBeInTheDocument();
   });
 
+  it('handles search query submission via enter', async () => {
+    renderComponent();
+    const searchInput = screen.getByPlaceholderText(/Cari berdasarkan judul atau deskripsi/i);
+    await userEvent.type(searchInput, 'Lost{enter}');
+    expect(mockDispatch).toHaveBeenCalled();
+  });
+
   it('handles filter status and completed', async () => {
     renderComponent();
     const statusSelect = screen.getAllByRole('combobox')[0]; // Status

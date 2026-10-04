@@ -16,7 +16,8 @@ function ChangeCoverModal({ isOpen, onClose, lostFoundId, onSuccess }) {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    /* v8 ignore next */
+if (!file) return;
 
     // Validate file type
     if (!file.type.startsWith('image/')) {

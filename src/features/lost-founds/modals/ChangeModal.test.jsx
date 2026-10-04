@@ -49,6 +49,15 @@ describe('ChangeModal', () => {
     expect(screen.getByLabelText(/Tandai sebagai selesai/i)).not.toBeChecked(); // is_completed
   });
 
+  it('does not dispatch if required fields missing', async () => {
+    renderComponent();
+    const titleInput = screen.getByLabelText('Judul Laporan');
+    await userEvent.clear(titleInput);
+    const submitBtn = screen.getByRole('button', { name: /Simpan Perubahan/i });
+    await userEvent.click(submitBtn);
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
   it('handles input changes and dispatch successfully', async () => {
     mockDispatch.mockResolvedValue(true);
     renderComponent();

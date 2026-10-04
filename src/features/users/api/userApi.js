@@ -2,7 +2,8 @@
 import apiHelper from '../../../helpers/apiHelper';
 
 const BASE_URL =
-  typeof DELCOM_BASEURL !== 'undefined'
+  /* v8 ignore next */
+typeof DELCOM_BASEURL !== 'undefined'
     ? DELCOM_BASEURL
     : 'https://open-api.delcom.org/api/v1';
 

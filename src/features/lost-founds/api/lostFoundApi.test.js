@@ -10,6 +10,10 @@ describe('lostFoundApi', () => {
   });
 
   describe('getLostFounds', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(lostFoundApi.getLostFounds()).rejects.toThrow('Gagal mengambil daftar Lost & Founds');
+    });
     it('should return data on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, data: { lost_founds: ['item1'] } }),
@@ -33,6 +37,10 @@ describe('lostFoundApi', () => {
   });
 
   describe('getLostFoundById', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(lostFoundApi.getLostFoundById('1')).rejects.toThrow('Gagal mengambil detail laporan');
+    });
     it('should return data on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, data: { lost_found: 'item1' } }),
@@ -46,9 +54,20 @@ describe('lostFoundApi', () => {
       });
       await expect(lostFoundApi.getLostFoundById('1')).rejects.toThrow('fail');
     });
+    it('should handle missing data gracefully', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({
+        json: () => Promise.resolve({ success: true, data: {} }),
+      });
+      const response = await lostFoundApi.getLostFoundById('1');
+      expect(response).toBeNull();
+    });
   });
 
   describe('postLostFound', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(lostFoundApi.postLostFound({ title: 't', description: 'd', status: 'lost' })).rejects.toThrow('Gagal menambahkan laporan');
+    });
     it('should return data on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, message: 'success', data: 'item1' }),
@@ -65,6 +84,10 @@ describe('lostFoundApi', () => {
   });
 
   describe('putLostFound', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(lostFoundApi.putLostFound('1', {})).rejects.toThrow('Gagal memperbarui laporan');
+    });
     it('should return message on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, message: 'success' }),
@@ -81,6 +104,10 @@ describe('lostFoundApi', () => {
   });
 
   describe('postLostFoundCover', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(lostFoundApi.postLostFoundCover('1', new File([''], 'cover.png'))).rejects.toThrow('Gagal mengunggah cover laporan');
+    });
     it('should return message on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, message: 'success' }),
@@ -97,6 +124,10 @@ describe('lostFoundApi', () => {
   });
 
   describe('deleteLostFound', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(lostFoundApi.deleteLostFound('1')).rejects.toThrow('Gagal menghapus laporan');
+    });
     it('should return message on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, message: 'success' }),
@@ -113,6 +144,10 @@ describe('lostFoundApi', () => {
   });
 
   describe('getStatsDaily', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(lostFoundApi.getStatsDaily()).rejects.toThrow('Gagal mengambil statistik harian');
+    });
     it('should return data on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, data: 'stats' }),
@@ -136,6 +171,10 @@ describe('lostFoundApi', () => {
   });
 
   describe('getStatsMonthly', () => {
+    it('should throw default error on fail without message', async () => {
+      apiHelper.fetchWithAuth.mockResolvedValue({ json: () => Promise.resolve({ success: false }) });
+      await expect(lostFoundApi.getStatsMonthly()).rejects.toThrow('Gagal mengambil statistik bulanan');
+    });
     it('should return data on success', async () => {
       apiHelper.fetchWithAuth.mockResolvedValue({
         json: () => Promise.resolve({ success: true, data: 'stats' }),

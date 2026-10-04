@@ -40,6 +40,13 @@ describe('ChangeCoverModal', () => {
     expect(container.firstChild).toBeNull();
   });
 
+  it('does nothing if form submitted without file', async () => {
+    renderComponent();
+    const submitBtn = screen.getByRole('button', { name: /Unggah Foto/i });
+    await userEvent.click(submitBtn);
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
   it('shows error if file is not an image', async () => {
     renderComponent();
     const fileInput = document.getElementById('dropzone-file'); // querySelector

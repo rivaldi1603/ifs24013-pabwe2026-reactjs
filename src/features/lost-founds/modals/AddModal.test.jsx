@@ -55,6 +55,13 @@ describe('AddModal', () => {
     expect(radioLost).not.toBeChecked();
   });
 
+  it('does not dispatch if required fields missing', async () => {
+    renderComponent();
+    const submitBtn = screen.getByRole('button', { name: /Simpan Laporan/i });
+    await userEvent.click(submitBtn);
+    expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
   it('dispatches action on submit', async () => {
     mockDispatch.mockResolvedValue(true);
     renderComponent();

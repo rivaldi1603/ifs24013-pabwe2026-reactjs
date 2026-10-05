@@ -15,6 +15,19 @@ export default defineConfig(({ mode }) => {
         env.DELCOM_BASEURL || 'https://open-api.delcom.org/api/v1'
       ),
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react')) return 'vendor-react';
+              if (id.includes('@tabler/icons-react')) return 'vendor-icons';
+              return 'vendor';
+            }
+          }
+        }
+      }
+    },
     test: {
       globals: true,
       environment: 'jsdom',

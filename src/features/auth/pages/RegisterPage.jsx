@@ -38,7 +38,7 @@ function RegisterPage() {
   return (
     <div className="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100">
       <div className="mb-8 text-center">
-        <h2 className="text-2xl font-bold text-slate-800 mb-2">Buat Akun Baru</h2>
+        <h1 className="text-2xl font-bold text-slate-800 mb-2">Buat Akun Baru</h1>
         <p className="text-slate-500 text-sm">Bergabunglah untuk mulai melaporkan</p>
       </div>
 

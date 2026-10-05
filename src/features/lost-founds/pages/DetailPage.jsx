@@ -44,6 +44,7 @@ function DetailPage() {
   if (!isLostFound) {
     return (
       <div className="flex items-center justify-center h-96">
+        <h1 className="sr-only">Memuat detail laporan</h1>
         <div className="w-10 h-10 border-4 border-blue-600/30 border-t-blue-600 rounded-full animate-spin"></div>
       </div>
     );
@@ -52,9 +53,9 @@ function DetailPage() {
   if (!lostFound) {
     return (
       <div className="flex flex-col items-center justify-center h-96 text-center">
-        <IconAlertCircle size={48} className="text-slate-400 mb-4" />
-        <h2 className="text-2xl font-bold text-slate-800">Laporan Tidak Ditemukan</h2>
-        <p className="text-slate-500 mt-2 mb-6">Laporan yang Anda cari mungkin telah dihapus atau tidak tersedia.</p>
+        <IconAlertCircle size={48} className="text-slate-500 mb-4" />
+        <h1 className="text-2xl font-bold text-slate-800">Laporan Tidak Ditemukan</h1>
+        <p className="text-slate-600 mt-2 mb-6">Laporan yang Anda cari mungkin telah dihapus atau tidak tersedia.</p>
         <Link to="/" className="text-blue-600 font-medium hover:underline flex items-center gap-2">
           <IconArrowLeft size={18} /> Kembali ke Beranda
         </Link>
@@ -68,7 +69,7 @@ function DetailPage() {
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Header Navigation */}
       <div className="flex justify-between items-center">
-        <Link to="/" className="text-slate-500 hover:text-slate-800 font-medium flex items-center gap-2 transition-colors">
+        <Link to="/" className="text-slate-600 hover:text-slate-800 font-medium flex items-center gap-2 transition-colors">
           <IconArrowLeft size={18} /> Kembali
         </Link>
         {isMyPost && (
@@ -102,17 +103,17 @@ function DetailPage() {
                 className="w-full h-full object-cover max-h-[500px]"
               />
             ) : (
-              <div className="flex flex-col items-center justify-center text-slate-400 p-12">
+              <div className="flex flex-col items-center justify-center text-slate-600 p-12">
                 <IconPhoto size={64} className="mb-4 opacity-50" />
                 <span className="font-medium text-lg">Belum ada foto</span>
-                <p className="text-sm text-center mt-2 opacity-80">Foto sangat membantu dalam proses identifikasi barang.</p>
+                <p className="text-sm text-center mt-2">Foto sangat membantu dalam proses identifikasi barang.</p>
               </div>
             )}
             
             {/* Status Badges Overlaid */}
             <div className="absolute top-4 left-4 flex flex-col gap-2">
               <span className={`px-3 py-1.5 text-sm font-bold rounded-lg shadow-md inline-block w-fit ${
-                lostFound.status === 'lost' ? 'bg-red-500 text-white' : 'bg-green-500 text-white'
+                lostFound.status === 'lost' ? 'bg-red-700 text-white' : 'bg-green-700 text-white'
               }`}>
                 {lostFound.status === 'lost' ? 'HILANG' : 'DITEMUKAN'}
               </span>
@@ -152,7 +153,7 @@ function DetailPage() {
             </div>
 
             <div className="flex-grow mb-8">
-              <h3 className="text-lg font-bold text-slate-800 mb-3">Deskripsi Detail</h3>
+              <h2 className="text-lg font-bold text-slate-800 mb-3">Deskripsi Detail</h2>
               <p className="text-slate-600 leading-relaxed whitespace-pre-line">
                 {lostFound.description}
               </p>
@@ -167,7 +168,7 @@ function DetailPage() {
                   className="w-12 h-12 rounded-full border-2 border-white shadow-sm"
                 />
                 <div>
-                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-0.5">Dilaporkan oleh</p>
+                  <p className="text-xs font-semibold text-slate-600 uppercase tracking-wider mb-0.5">Dilaporkan oleh</p>
                   <p className="font-bold text-slate-800">{lostFound.author?.name}</p>
                 </div>
               </div>

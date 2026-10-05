@@ -109,6 +109,7 @@ function HomePage() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            aria-label="Cari laporan"
             placeholder="Cari berdasarkan judul atau deskripsi..."
             className="block w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none text-sm"
           />
@@ -122,6 +123,7 @@ function HomePage() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
+              aria-label="Filter status laporan"
               className="block w-full pl-9 pr-8 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none text-sm appearance-none bg-white"
             >
               <option value="">Semua Status</option>
@@ -133,6 +135,7 @@ function HomePage() {
             <select
               value={filterCompleted}
               onChange={(e) => setFilterCompleted(e.target.value)}
+              aria-label="Filter progres laporan"
               className="block w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none text-sm bg-white"
             >
               <option value="">Semua Progres</option>
@@ -166,14 +169,14 @@ function HomePage() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 bg-slate-100">
+                  <div className="w-full h-full flex flex-col items-center justify-center text-slate-600 bg-slate-100">
                     <IconPhoto size={40} className="mb-2 opacity-50" />
                     <span className="text-xs font-medium uppercase tracking-wider">Tanpa Foto</span>
                   </div>
                 )}
                 <div className="absolute top-3 left-3 flex gap-2">
                   <span className={`px-2.5 py-1 text-xs font-bold rounded-md shadow-sm ${
-                    item.status === 'lost' ? 'bg-red-500 text-white' : 'bg-green-500 text-white'
+                    item.status === 'lost' ? 'bg-red-700 text-white' : 'bg-green-700 text-white'
                   }`}>
                     {item.status === 'lost' ? 'HILANG' : 'DITEMUKAN'}
                   </span>
@@ -185,13 +188,13 @@ function HomePage() {
                 </div>
               </div>
               <div className="p-4 flex flex-col flex-grow">
-                <h3 className="font-bold text-slate-800 text-lg mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                <h2 className="font-bold text-slate-800 text-lg mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
                   {item.title}
-                </h3>
+                </h2>
                 <p className="text-sm text-slate-600 mb-4 line-clamp-2 flex-grow">
                   {item.description}
                 </p>
-                <div className="flex items-center justify-between text-xs font-medium text-slate-500 pt-4 border-t border-slate-100 mt-auto">
+                <div className="flex items-center justify-between text-xs font-medium text-slate-600 pt-4 border-t border-slate-100 mt-auto">
                   <div className="flex items-center gap-1.5">
                     <img
                       src={item.author?.photo || 'https://ui-avatars.com/api/?name=' + (item.author?.name || 'U')}

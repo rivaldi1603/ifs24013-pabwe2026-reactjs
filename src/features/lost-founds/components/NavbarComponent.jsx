@@ -25,6 +25,8 @@ function NavbarComponent({ toggleSidebar }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-start">
             <button
+              type="button"
+              aria-label="Buka menu navigasi"
               onClick={toggleSidebar}
               className="p-2 text-slate-600 rounded cursor-pointer lg:hidden hover:text-slate-900 hover:bg-slate-100 focus:bg-slate-100 focus:ring-2 focus:ring-slate-100"
             >

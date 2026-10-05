@@ -56,7 +56,7 @@ describe('LoginPage Component', () => {
   it('should toggle password visibility', async () => {
     renderComponent();
     const passwordInput = screen.getByPlaceholderText('••••••••');
-    const toggleBtn = screen.getByRole('button', { name: '' }); // the eye icon
+    const toggleBtn = screen.getByRole('button', { name: /kata sandi/i }); // the eye icon
 
     expect(passwordInput).toHaveAttribute('type', 'password');
     await userEvent.click(toggleBtn);

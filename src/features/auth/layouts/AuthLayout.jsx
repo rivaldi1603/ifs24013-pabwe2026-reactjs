@@ -18,7 +18,7 @@ function AuthLayout() {
   return (
     <div className="flex min-h-screen bg-slate-50">
       {/* Visual Banner for Desktop */}
-      <div className="hidden lg:flex lg:w-1/2 bg-blue-600 items-center justify-center relative overflow-hidden">
+      <aside className="hidden lg:flex lg:w-1/2 bg-blue-600 items-center justify-center relative overflow-hidden" aria-label="Tentang Delcom Lost & Founds">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-700 to-indigo-900 opacity-90"></div>
         <div className="relative z-10 text-white p-12 flex flex-col items-start justify-center h-full">
           <h1 className="text-5xl font-extrabold mb-6 tracking-tight leading-tight">
@@ -47,18 +47,18 @@ function AuthLayout() {
         {/* Abstract background shapes */}
         <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
         <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
-      </div>
+      </aside>
 
       {/* Form Container */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
+      <main className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
         <div className="w-full max-w-md">
           <div className="text-center mb-10 lg:hidden">
             <h1 className="text-3xl font-extrabold text-blue-700 tracking-tight">Delcom</h1>
-            <p className="text-slate-500 font-medium mt-1">Lost & Founds</p>
+            <p className="text-slate-600 font-medium mt-1">Lost &amp; Founds</p>
           </div>
           <Outlet />
         </div>
-      </div>
+      </main>
     </div>
   );
 }

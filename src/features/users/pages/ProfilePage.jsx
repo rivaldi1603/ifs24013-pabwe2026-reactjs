@@ -99,7 +99,8 @@ function ProfilePage() {
 
   if (!profile) {
     return (
-      <div className="p-12 text-center bg-white rounded-2xl border border-slate-200 text-slate-500">
+      <div className="p-12 text-center bg-white rounded-2xl border border-slate-200 text-slate-600">
+        <h1 className="sr-only">Profil Saya</h1>
         Memuat informasi profil...
       </div>
     );
@@ -131,7 +132,7 @@ function ProfilePage() {
         />
 
         <form onSubmit={onPhotoSubmit} className="flex-1 space-y-3 w-full">
-          <h3 className="font-semibold text-slate-900">Foto Avatar</h3>
+          <h2 className="font-semibold text-slate-900">Foto Avatar</h2>
           <div className="flex flex-col sm:flex-row sm:items-center gap-3">
             <input
               type="file"
@@ -157,7 +158,7 @@ function ProfilePage() {
           onSubmit={onProfileSubmit}
           className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4"
         >
-          <h3 className="font-bold text-slate-900 text-lg">Informasi Pribadi</h3>
+          <h2 className="font-bold text-slate-900 text-lg">Informasi Pribadi</h2>
 
           <div>
             <label
@@ -207,7 +208,7 @@ function ProfilePage() {
           onSubmit={onPasswordSubmit}
           className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4"
         >
-          <h3 className="font-bold text-slate-900 text-lg">Ganti Kata Sandi</h3>
+          <h2 className="font-bold text-slate-900 text-lg">Ganti Kata Sandi</h2>
 
           <div>
             <label

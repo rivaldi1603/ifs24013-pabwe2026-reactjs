@@ -40,9 +40,10 @@ function LostFoundLayout() {
 
   if (!isProfile) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-50">
+      <main className="flex items-center justify-center min-h-screen bg-slate-50">
+        <h1 className="sr-only">Memuat Delcom Lost &amp; Founds</h1>
         <div className="w-10 h-10 border-4 border-blue-600/30 border-t-blue-600 rounded-full animate-spin"></div>
-      </div>
+      </main>
     );
   }
 

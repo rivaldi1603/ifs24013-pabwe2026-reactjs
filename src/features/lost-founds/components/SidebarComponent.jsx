@@ -49,7 +49,7 @@ function SidebarComponent({ isOpen, closeSidebar }) {
             ))}
           </ul>
           
-          <div className="mt-8 pt-4 border-t border-slate-200 text-xs text-center text-slate-400">
+          <div className="mt-8 pt-4 border-t border-slate-200 text-xs text-center text-slate-600">
             &copy; 2026 Delcom Lost & Founds
           </div>
         </div>

@@ -84,4 +84,23 @@ describe('StatsPage', () => {
 
     expect(screen.getAllByText(/Unknown format/)).toHaveLength(2);
   });
+
+  it('handles variations of data fields and fallbacks', () => {
+    renderWithProviders(<StatsPage />, {
+      preloadedState: {
+        lostFoundStats: {
+          daily: [
+            { period: 'Q1', lost: 5, found: 3 },
+            { },
+            { total_lost: 2, total_found: 4 }
+          ],
+          monthly: null,
+        },
+      },
+    });
+
+    expect(screen.getByText('Q1')).toBeInTheDocument();
+    expect(screen.getByText('Periode 2')).toBeInTheDocument();
+    expect(screen.getByText('Periode 3')).toBeInTheDocument();
+  });
 });

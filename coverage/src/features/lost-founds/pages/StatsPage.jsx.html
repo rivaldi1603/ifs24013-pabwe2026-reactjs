@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.09% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/22</span>
+                <span class='fraction'>22/22</span>
             </div>
         
             
@@ -169,26 +169,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -212,7 +212,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -245,7 +245,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -314,11 +314,11 @@ function StatsPage() {
                   {data.map((item, index) =&gt; (
                     &lt;tr key={index} className="border-b border-slate-100 hover:bg-slate-50 transition-colors"&gt;
                       &lt;td className="px-4 py-3 font-medium text-slate-800"&gt;
-                        {item.date || item.month || <span class="branch-2 cbranch-no" title="branch not covered" >item.period || <span class="branch-3 cbranch-no" title="branch not covered" >`</span>Periode ${index + 1}`}</span>
+                        {item.date || item.month || item.period || `Periode ${index + 1}`}
                       &lt;/td&gt;
-                      &lt;td className="px-4 py-3 text-red-600 font-semibold"&gt;{item.lost || item.total_lost || <span class="branch-2 cbranch-no" title="branch not covered" >0}&lt;/td&gt;</span>
-                      &lt;td className="px-4 py-3 text-green-600 font-semibold"&gt;{item.found || item.total_found || <span class="branch-2 cbranch-no" title="branch not covered" >0}&lt;/td&gt;</span>
-                      &lt;td className="px-4 py-3 font-bold"&gt;{item.<span class="branch-1 cbranch-no" title="branch not covered" >total || (item.lost || 0) + (item.found || 0)}&lt;/td&gt;</span>
+                      &lt;td className="px-4 py-3 text-red-600 font-semibold"&gt;{item.lost || item.total_lost || 0}&lt;/td&gt;
+                      &lt;td className="px-4 py-3 text-green-600 font-semibold"&gt;{item.found || item.total_found || 0}&lt;/td&gt;
+                      &lt;td className="px-4 py-3 font-bold"&gt;{item.total || (item.lost || 0) + (item.found || 0)}&lt;/td&gt;
                     &lt;/tr&gt;
                   ))}
                 &lt;/tbody&gt;
@@ -370,7 +370,7 @@ export default StatsPage;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-05T08:05:37.746Z
+                at 2026-10-05T08:23:25.220Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

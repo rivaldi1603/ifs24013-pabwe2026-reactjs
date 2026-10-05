@@ -1,9 +1,9 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-// Layouts (dimuat langsung karena selalu dibutuhkan)
-import AuthLayout from './features/auth/layouts/AuthLayout';
-import LostFoundLayout from './features/lost-founds/layouts/LostFoundLayout';
+// Layouts (dimuat secara lazy untuk code-splitting)
+const AuthLayout = lazy(() => import('./features/auth/layouts/AuthLayout'));
+const LostFoundLayout = lazy(() => import('./features/lost-founds/layouts/LostFoundLayout'));
 
 // Pages dimuat secara lazy (code-splitting) agar bundle awal lebih kecil
 const LoginPage = lazy(() => import('./features/auth/pages/LoginPage'));

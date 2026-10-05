@@ -35,7 +35,7 @@ if (!email || !password) return;
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-1.5" htmlFor="email">
+          <label className="block text-sm font-semibold text-slate-700 mb-1.5" htmlFor="login-email-input">
             Alamat Email
           </label>
           <div className="relative">
@@ -43,7 +43,7 @@ if (!email || !password) return;
               <IconMail size={20} />
             </div>
             <input
-              id="email"
+              id="login-email-input"
               type="email"
               value={email}
               onChange={onEmailChange}
@@ -55,7 +55,7 @@ if (!email || !password) return;
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-1.5" htmlFor="password">
+          <label className="block text-sm font-semibold text-slate-700 mb-1.5" htmlFor="login-password-input">
             Kata Sandi
           </label>
           <div className="relative">
@@ -63,7 +63,7 @@ if (!email || !password) return;
               <IconLock size={20} />
             </div>
             <input
-              id="password"
+              id="login-password-input"
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={onPasswordChange}
@@ -82,6 +82,7 @@ if (!email || !password) return;
         </div>
 
         <button
+          id="login-submit-button"
           type="submit"
           disabled={isAuthLogin || !email || !password}
           className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed mt-2 shadow-md shadow-blue-500/30"

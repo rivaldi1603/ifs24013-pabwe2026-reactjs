@@ -10,6 +10,7 @@ const LoginPage = lazy(() => import('./features/auth/pages/LoginPage'));
 const RegisterPage = lazy(() => import('./features/auth/pages/RegisterPage'));
 const HomePage = lazy(() => import('./features/lost-founds/pages/HomePage'));
 const DetailPage = lazy(() => import('./features/lost-founds/pages/DetailPage'));
+const StatsPage = lazy(() => import('./features/lost-founds/pages/StatsPage'));
 const UsersPage = lazy(() => import('./features/users/pages/UsersPage'));
 const ProfilePage = lazy(() => import('./features/users/pages/ProfilePage'));
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="/" element={<LostFoundLayout />}>
           <Route index element={<HomePage />} />
           <Route path="lost-founds/:id" element={<DetailPage />} />
+          <Route path="stats" element={<StatsPage />} />
           <Route path="users" element={<UsersPage />} />
           <Route path="profile" element={<ProfilePage />} />
         </Route>

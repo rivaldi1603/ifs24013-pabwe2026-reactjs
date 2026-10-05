@@ -106,5 +106,12 @@ describe('App Integration Test', () => {
         { timeout: 5000 }
       );
     });
+
+    it('renders the stats page', async () => {
+      renderWithProviders(<App />, { route: '/stats', preloadedState });
+      expect(
+        await screen.findByRole('heading', { name: 'Statistik Laporan' }, { timeout: 5000 })
+      ).toBeInTheDocument();
+    });
   });
 });

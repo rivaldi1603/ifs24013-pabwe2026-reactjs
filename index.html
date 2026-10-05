@@ -40,9 +40,12 @@
   </head>
   <body class="bg-slate-50 text-slate-800 antialiased font-['Plus_Jakarta_Sans',sans-serif]">
     <div id="root">
-      <main class="page-loader" role="status" aria-live="polite">
+      <main class="page-loader">
         <h1 class="sr-only">Memuat halaman...</h1>
-        <div class="spinner"></div>
+        <div role="status" aria-live="polite">
+          <div class="spinner"></div>
+          <span class="sr-only">Memuat...</span>
+        </div>
       </main>
     </div>
     <script type="module" src="/src/main.jsx"></script>

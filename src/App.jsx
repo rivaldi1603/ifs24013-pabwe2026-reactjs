@@ -15,9 +15,12 @@ const ProfilePage = lazy(() => import('./features/users/pages/ProfilePage'));
 
 function PageLoader() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-slate-50" role="status" aria-live="polite">
+    <main className="flex flex-col items-center justify-center min-h-screen bg-slate-50">
       <h1 className="sr-only">Memuat halaman...</h1>
-      <div className="w-10 h-10 border-4 border-blue-600/30 border-t-blue-600 rounded-full animate-spin"></div>
+      <div role="status" aria-live="polite" className="flex flex-col items-center">
+        <div className="w-10 h-10 border-4 border-blue-600/30 border-t-blue-600 rounded-full animate-spin"></div>
+        <span className="sr-only">Memuat...</span>
+      </div>
     </main>
   );
 }

@@ -38,14 +38,8 @@ function LostFoundLayout() {
     setIsSidebarOpen(false);
   };
 
-  if (!isProfile) {
-    return (
-      <main className="flex items-center justify-center min-h-screen bg-slate-50">
-        <h1 className="sr-only">Memuat Delcom Lost &amp; Founds</h1>
-        <div className="w-10 h-10 border-4 border-blue-600/30 border-t-blue-600 rounded-full animate-spin"></div>
-      </main>
-    );
-  }
+  // Removed blocking full-page loader to improve LCP. 
+  // Navbar Component already handles empty profile gracefully.
 
   return (
     <div className="bg-slate-50 min-h-screen">

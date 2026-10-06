@@ -16,18 +16,17 @@ function HomePage() {
   const [filterCompleted, setFilterCompleted] = useState(''); // '' (all), '1', '0'
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-    dispatch(asyncSetLostFoundStats());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterStatus, filterCompleted]);
-
-  const fetchData = () => {
+  const fetchData = React.useCallback(() => {
     const params = {};
     if (filterStatus) params.status = filterStatus;
     if (filterCompleted !== '') params.is_completed = filterCompleted;
     dispatch(asyncSetLostFounds(params));
-  };
+  }, [filterStatus, filterCompleted, dispatch]);
+
+  useEffect(() => {
+    fetchData();
+    dispatch(asyncSetLostFoundStats());
+  }, [fetchData, dispatch]);
 
   // Live search filtering locally since API might not support ?search=
   const filteredData = lostFounds?.filter((item) => {

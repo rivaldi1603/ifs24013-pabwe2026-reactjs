@@ -211,7 +211,7 @@ function asyncSetLostFoundStats(params = {}) {
         lostFoundApi.getStatsMonthly(params),
       ]);
       dispatch(setLostFoundStatsActionCreator({ daily, monthly }));
-    } catch {
+    } catch (error) {
       dispatch(setLostFoundStatsActionCreator({ daily: null, monthly: null }));
     }
   };

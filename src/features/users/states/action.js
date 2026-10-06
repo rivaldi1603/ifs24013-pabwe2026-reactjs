@@ -90,7 +90,7 @@ function asyncSetProfile() {
       const profile = await userApi.getProfile();
       dispatch(setProfileActionCreator(profile));
       dispatch(setIsProfileActionCreator(true));
-    } catch {
+    } catch (error) {
       dispatch(setProfileActionCreator(null));
       dispatch(setIsProfileActionCreator(true));
     }

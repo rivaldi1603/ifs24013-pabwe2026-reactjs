@@ -29,7 +29,7 @@ describe('ChangeCoverModal', () => {
     useDispatch.mockReturnValue(mockDispatch);
     useSelector.mockImplementation((selector) => selector({ isLostFoundChangeCover: false }));
     // Mock URL.createObjectURL
-    global.URL.createObjectURL = vi.fn(() => 'mock-url');
+    globalThis.URL.createObjectURL = vi.fn(() => 'mock-url');
   });
 
   const renderComponent = (isOpen = true) =>

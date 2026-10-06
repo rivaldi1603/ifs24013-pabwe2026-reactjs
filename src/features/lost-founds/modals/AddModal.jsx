@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconX, IconDeviceFloppy } from '@tabler/icons-react';
 import useInput from '../../../hooks/useInput';

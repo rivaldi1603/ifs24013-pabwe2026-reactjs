@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncSetLostFoundStats } from '../states/action';
-import { IconChartBar, IconCalendarEvent, IconCalendarTime } from '@tabler/icons-react';
+import { IconCalendarEvent, IconCalendarTime } from '@tabler/icons-react';
 
 function StatsPage() {
   const dispatch = useDispatch();

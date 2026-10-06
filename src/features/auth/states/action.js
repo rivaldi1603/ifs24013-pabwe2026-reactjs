@@ -47,6 +47,7 @@ function asyncSetAuthLogin({ email, password }) {
       dispatch(setIsAuthLoginActionCreator(false));
       showSuccessDialog('Login Berhasil', 'Selamat datang!');
     } catch (error) {
+      console.error(error);
       dispatch(setIsAuthLoginActionCreator(false));
       showErrorDialog('Login Gagal', error.message);
     }
@@ -62,6 +63,7 @@ function asyncSetAuthRegister({ name, email, password, passwordConfirmation }) {
       await showSuccessDialog('Registrasi Berhasil', message);
       return true; // Used to redirect to login
     } catch (error) {
+      console.error(error);
       dispatch(setIsAuthRegisterActionCreator(false));
       showErrorDialog('Registrasi Gagal', error.message);
       return false;
@@ -77,6 +79,7 @@ function asyncSetAuthLogout() {
       dispatch(setAuthUserActionCreator(null));
       dispatch(setIsAuthLogoutActionCreator(false));
     } catch (error) {
+      console.error(error);
       dispatch(setIsAuthLogoutActionCreator(false));
       showErrorDialog('Logout Gagal', error.message);
     }

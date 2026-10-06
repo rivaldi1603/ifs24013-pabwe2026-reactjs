@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   IconArrowLeft, IconEdit, IconPhoto, IconTrash, 
-  IconMapPin, IconClock, IconUser, IconCheck, IconAlertCircle 
+  IconMapPin, IconClock, IconCheck, IconAlertCircle 
 } from '@tabler/icons-react';
 import { asyncSetLostFoundById, asyncDeleteLostFound } from '../states/action';
 import ChangeModal from '../modals/ChangeModal';

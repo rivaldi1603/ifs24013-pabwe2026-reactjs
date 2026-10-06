@@ -106,6 +106,7 @@ function asyncSetLostFounds(params = {}) {
       const lostFounds = await lostFoundApi.getLostFounds(params);
       dispatch(setLostFoundsActionCreator(lostFounds));
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Memuat Data', error.message);
       dispatch(setLostFoundsActionCreator([]));
     }
@@ -120,6 +121,7 @@ function asyncSetLostFoundById(lostFoundId) {
       dispatch(setLostFoundActionCreator(lostFound));
       dispatch(setIsLostFoundActionCreator(true));
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Memuat Detail', error.message);
       dispatch(setLostFoundActionCreator(null));
       dispatch(setIsLostFoundActionCreator(true));
@@ -139,6 +141,7 @@ function asyncPostLostFound({ title, description, status }) {
       await showSuccessDialog('Berhasil', message);
       dispatch(setIsLostFoundAddedActionCreator(true));
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Menambahkan Laporan', error.message);
       dispatch(setIsLostFoundAddedActionCreator(false));
     } finally {
@@ -163,6 +166,7 @@ function asyncPutLostFound(
       await showSuccessDialog('Berhasil', message);
       dispatch(setIsLostFoundChangedActionCreator(true));
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Memperbarui Laporan', error.message);
       dispatch(setIsLostFoundChangedActionCreator(false));
     } finally {
@@ -179,6 +183,7 @@ function asyncPostLostFoundCover(lostFoundId, cover) {
       await showSuccessDialog('Berhasil', message);
       dispatch(setIsLostFoundChangedCoverActionCreator(true));
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Mengunggah Cover', error.message);
       dispatch(setIsLostFoundChangedCoverActionCreator(false));
     } finally {
@@ -195,6 +200,7 @@ function asyncDeleteLostFound(lostFoundId) {
       await showSuccessDialog('Berhasil', message);
       dispatch(setIsLostFoundDeletedActionCreator(true));
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Menghapus Laporan', error.message);
       dispatch(setIsLostFoundDeletedActionCreator(false));
     } finally {
@@ -212,6 +218,7 @@ function asyncSetLostFoundStats(params = {}) {
       ]);
       dispatch(setLostFoundStatsActionCreator({ daily, monthly }));
     } catch (error) {
+      console.error(error);
       dispatch(setLostFoundStatsActionCreator({ daily: null, monthly: null }));
     }
   };

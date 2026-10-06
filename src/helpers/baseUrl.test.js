@@ -6,12 +6,12 @@ vi.mock('./apiHelper');
 describe('Base URL Configuration', () => {
   beforeEach(() => {
     vi.resetModules();
-    global.DELCOM_BASEURL = 'https://custom-api.com/api/v1';
+    globalThis.DELCOM_BASEURL = 'https://custom-api.com/api/v1';
     vi.clearAllMocks();
   });
 
   afterEach(() => {
-    delete global.DELCOM_BASEURL;
+    delete globalThis.DELCOM_BASEURL;
   });
 
   it('authApi uses DELCOM_BASEURL', async () => {

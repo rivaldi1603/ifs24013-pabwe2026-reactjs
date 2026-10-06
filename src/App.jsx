@@ -1,5 +1,5 @@
-import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
 
 // Layouts (dimuat langsung karena selalu dibutuhkan)
 import AuthLayout from './features/auth/layouts/AuthLayout';
@@ -52,9 +52,9 @@ function App() {
             <main className="flex flex-col items-center justify-center min-h-screen bg-slate-50 text-center p-6">
               <h1 className="text-4xl font-bold text-slate-800 mb-4">404 - Halaman Tidak Ditemukan</h1>
               <p className="text-slate-600 mb-8">Maaf, halaman yang Anda cari tidak ada.</p>
-              <a href="/" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+              <Link to="/" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
                 Kembali ke Beranda
-              </a>
+              </Link>
             </main>
           }
         />

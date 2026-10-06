@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useInput from '../../../hooks/useInput';
 import { asyncSetAuthLogin } from '../states/action';
 import { IconMail, IconLock, IconEye, IconEyeOff, IconLogin } from '@tabler/icons-react';
 
 function LoginPage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isAuthLogin = useSelector((state) => state.isAuthLogin);
+    const isAuthLogin = useSelector((state) => state.isAuthLogin);
   
   const [email, onEmailChange] = useInput('');
   const [password, onPasswordChange] = useInput('');

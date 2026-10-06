@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IconSearch, IconFilter, IconPlus, IconBox, IconMapPin, IconCheck, IconClock, IconPhoto } from '@tabler/icons-react';
 import { asyncSetLostFounds, asyncSetLostFoundStats } from '../states/action';
 import AddModal from '../modals/AddModal';
-import { formatDate } from '../../../helpers/toolsHelper';
 
 function HomePage() {
   const dispatch = useDispatch();
   const lostFounds = useSelector((state) => state.lostFounds);
-  const stats = useSelector((state) => state.lostFoundStats);
-
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState(''); // '' (all), 'lost', 'found'
   const [filterCompleted, setFilterCompleted] = useState(''); // '' (all), '1', '0'
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  const fetchData = React.useCallback(() => {
+  const fetchData = useCallback(() => {
     const params = {};
     if (filterStatus) params.status = filterStatus;
     if (filterCompleted !== '') params.is_completed = filterCompleted;

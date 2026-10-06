@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconX, IconUpload, IconPhoto } from '@tabler/icons-react';
 import { asyncPostLostFoundCover } from '../states/action';

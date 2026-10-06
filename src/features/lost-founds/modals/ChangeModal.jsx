@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconX, IconDeviceFloppy } from '@tabler/icons-react';
 import { asyncPutLostFound } from '../states/action';

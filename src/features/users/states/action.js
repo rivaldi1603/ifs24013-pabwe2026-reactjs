@@ -66,6 +66,7 @@ function asyncSetUsers() {
       const users = await userApi.getUsers();
       dispatch(setUsersActionCreator(users));
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Memuat Pengguna', error.message);
       dispatch(setUsersActionCreator([]));
     }
@@ -78,6 +79,7 @@ function asyncSetUserById(userId) {
       const user = await userApi.getUserById(userId);
       dispatch(setUserActionCreator(user));
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Memuat Detail Pengguna', error.message);
       dispatch(setUserActionCreator(null));
     }
@@ -91,6 +93,7 @@ function asyncSetProfile() {
       dispatch(setProfileActionCreator(profile));
       dispatch(setIsProfileActionCreator(true));
     } catch (error) {
+      console.error(error);
       dispatch(setProfileActionCreator(null));
       dispatch(setIsProfileActionCreator(true));
     }
@@ -105,6 +108,7 @@ function asyncPutProfile({ name, email }) {
       dispatch(setIsChangeProfileActionCreator(true));
       dispatch(asyncSetProfile());
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Memperbarui Profil', error.message);
       dispatch(setIsChangeProfileActionCreator(false));
     }
@@ -119,6 +123,7 @@ function asyncPostProfilePhoto(photo) {
       dispatch(setIsChangeProfilePhotoActionCreator(true));
       dispatch(asyncSetProfile());
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Mengunggah Foto', error.message);
       dispatch(setIsChangeProfilePhotoActionCreator(false));
     }
@@ -135,6 +140,7 @@ function asyncPutProfilePassword({ password, new_password }) {
       await showSuccessDialog('Berhasil', message);
       dispatch(setIsChangeProfilePasswordActionCreator(true));
     } catch (error) {
+      console.error(error);
       await showErrorDialog('Gagal Mengubah Kata Sandi', error.message);
       dispatch(setIsChangeProfilePasswordActionCreator(false));
     }

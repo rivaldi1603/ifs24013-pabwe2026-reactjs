@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import HomePage from './HomePage';
 import { MemoryRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { asyncSetLostFounds, asyncSetLostFoundStats } from '../states/action';
+import { asyncSetLostFounds } from '../states/action';
 
 vi.mock('react-redux', () => ({
   useDispatch: vi.fn(),
@@ -13,7 +13,6 @@ vi.mock('react-redux', () => ({
 
 vi.mock('../states/action', () => ({
   asyncSetLostFounds: vi.fn(),
-  asyncSetLostFoundStats: vi.fn(),
   asyncPostLostFound: vi.fn(),
 }));
 

@@ -73,11 +73,11 @@ function ChangeModal({ isOpen, onClose, lostFound, onSuccess }) {
               />
             </div>
 
-            <div>
-              <span className="block text-sm font-semibold text-slate-700 mb-1.5">
+            <fieldset>
+              <legend className="block text-sm font-semibold text-slate-700 mb-1.5">
                 Jenis Laporan
-              </span>
-              <div className="flex gap-4" role="group" aria-label="Jenis Laporan">
+              </legend>
+              <div className="flex gap-4">
                 <label className={`flex-1 flex items-center justify-center p-3 border rounded-lg cursor-pointer transition-colors ${status === 'lost' ? 'bg-red-50 border-red-500 text-red-700' : 'bg-white border-slate-300 text-slate-600 hover:bg-slate-50'}`}>
                   <input
                     type="radio"
@@ -101,7 +101,7 @@ function ChangeModal({ isOpen, onClose, lostFound, onSuccess }) {
                   <span className="font-semibold text-sm">Menemukan (Found)</span>
                 </label>
               </div>
-            </div>
+            </fieldset>
 
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5" htmlFor="edit-description">

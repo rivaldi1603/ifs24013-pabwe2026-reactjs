@@ -66,7 +66,7 @@ describe('NavbarComponent', () => {
 
   it('closes dropdown when clicking Profil Saya', async () => {
     renderComponent();
-    const avatarBtn = screen.getByRole('button', { name: /user photo/i });
+    const avatarBtn = screen.getByRole('button', { name: /Test User/i });
     await userEvent.click(avatarBtn);
     expect(screen.getByText('Logout')).toBeInTheDocument();
     
@@ -117,11 +117,11 @@ describe('NavbarComponent', () => {
     useSelector.mockImplementation((selector) => selector({ profile: null }));
     renderComponent();
     expect(screen.getByText('User')).toBeInTheDocument();
-    expect(screen.getByAltText('user photo')).toHaveAttribute(
+    expect(screen.getByAltText('User')).toHaveAttribute(
       'src',
       'https://ui-avatars.com/api/?name=U'
     );
-    await userEvent.click(screen.getByRole('button', { name: /user photo/i }));
+    await userEvent.click(screen.getByRole('button', { name: /User/i }));
     expect(screen.getAllByText('-')).toHaveLength(2);
   });
 
@@ -130,6 +130,6 @@ describe('NavbarComponent', () => {
       selector({ profile: { name: 'A', email: 'a@a.com', photo: 'http://img/p.png' } })
     );
     renderComponent();
-    expect(screen.getByAltText('user photo')).toHaveAttribute('src', 'http://img/p.png');
+    expect(screen.getByAltText('A')).toHaveAttribute('src', 'http://img/p.png');
   });
 });

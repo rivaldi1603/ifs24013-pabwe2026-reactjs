@@ -27,7 +27,7 @@ function RegisterPage() {
     }
 
     // We can await the dispatch since we made it return a boolean indicating success
-    const success = await dispatch(
+    const success = dispatch(
       asyncSetAuthRegister({ name, email, password, passwordConfirmation })
     );
     if (success) {

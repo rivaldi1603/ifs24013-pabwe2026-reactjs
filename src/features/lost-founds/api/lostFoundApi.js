@@ -15,7 +15,8 @@ const lostFoundApi = (() => {
     if (params.is_me) query.append('is_me', params.is_me);
 
     const queryString = query.toString();
-    const url = `${BASE_URL}/lost-founds${queryString ? `?${queryString}` : ''}`;
+    const querySuffix = queryString ? `?${queryString}` : '';
+    const url = `${BASE_URL}/lost-founds${querySuffix}`;
 
     const response = await apiHelper.fetchWithAuth(url);
     const responseJson = await response.json();
@@ -103,9 +104,8 @@ const lostFoundApi = (() => {
     if (params.total_data) query.append('total_data', params.total_data);
 
     const queryString = query.toString();
-    const url = `${BASE_URL}/lost-founds/stats/daily${
-      queryString ? `?${queryString}` : ''
-    }`;
+    const querySuffix = queryString ? `?${queryString}` : '';
+    const url = `${BASE_URL}/lost-founds/stats/daily${querySuffix}`;
 
     const response = await apiHelper.fetchWithAuth(url);
     const responseJson = await response.json();
@@ -120,9 +120,8 @@ const lostFoundApi = (() => {
     if (params.total_data) query.append('total_data', params.total_data);
 
     const queryString = query.toString();
-    const url = `${BASE_URL}/lost-founds/stats/monthly${
-      queryString ? `?${queryString}` : ''
-    }`;
+    const querySuffix = queryString ? `?${queryString}` : '';
+    const url = `${BASE_URL}/lost-founds/stats/monthly${querySuffix}`;
 
     const response = await apiHelper.fetchWithAuth(url);
     const responseJson = await response.json();

@@ -27,7 +27,7 @@ function ChangeModal({ isOpen, onClose, lostFound, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await dispatch(
+    dispatch(
       asyncPutLostFound(lostFound.id, {
         title,
         description,

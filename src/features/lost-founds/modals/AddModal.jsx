@@ -17,7 +17,7 @@ function AddModal({ isOpen, onClose, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await dispatch(asyncPostLostFound({ title, description, status }));
+    dispatch(asyncPostLostFound({ title, description, status }));
     
     // reset
     setTitle('');

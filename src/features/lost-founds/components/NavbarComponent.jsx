@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { IconMenu2, IconUser, IconLogout, IconChevronDown } from '@tabler/icons-react';
+import PropTypes from 'prop-types';
 import { asyncSetAuthLogout } from '../../auth/states/action';
 import { showConfirmDialog } from '../../../helpers/toolsHelper';
 
@@ -46,7 +47,7 @@ function NavbarComponent({ toggleSidebar }) {
                 <img
                   className="w-8 h-8 rounded-full bg-blue-100 object-cover"
                   src={profile?.photo || 'https://ui-avatars.com/api/?name=' + (profile?.name || 'U')}
-                  alt="user photo"
+                  alt={profile?.name || 'User'}
                 />
                 <span className="ml-2 font-semibold text-slate-700 hidden sm:block">
                   {profile?.name || 'User'}
@@ -93,5 +94,9 @@ function NavbarComponent({ toggleSidebar }) {
     </nav>
   );
 }
+
+NavbarComponent.propTypes = {
+  toggleSidebar: PropTypes.func.isRequired,
+};
 
 export default NavbarComponent;

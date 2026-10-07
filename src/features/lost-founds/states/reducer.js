@@ -99,15 +99,13 @@ function isLostFoundDeletedReducer(state = false, action = {}) {
   }
 }
 
-function lostFoundStatsReducer(
-  state = { daily: null, monthly: null },
-  action = {}
-) {
+function lostFoundStatsReducer(state, action = {}) {
+  const currentState = state === undefined ? { daily: null, monthly: null } : state;
   switch (action.type) {
     case ActionType.SET_LOST_FOUND_STATS:
       return action.payload.lostFoundStats;
     default:
-      return state;
+      return currentState;
   }
 }
 

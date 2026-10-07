@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IconX, IconUpload, IconPhoto } from '@tabler/icons-react';
 import { asyncPostLostFoundCover } from '../states/action';
 import { showErrorDialog } from '../../../helpers/toolsHelper';
+import PropTypes from 'prop-types';
 
 function ChangeCoverModal({ isOpen, onClose, lostFoundId, onSuccess }) {
   const dispatch = useDispatch();
@@ -134,5 +135,12 @@ function ChangeCoverModal({ isOpen, onClose, lostFoundId, onSuccess }) {
     </div>
   );
 }
+
+ChangeCoverModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  lostFoundId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onSuccess: PropTypes.func,
+};
 
 export default ChangeCoverModal;

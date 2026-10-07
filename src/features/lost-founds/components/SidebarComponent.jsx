@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { IconDashboard, IconChartBar, IconUsers, IconUserCircle } from '@tabler/icons-react';
+import PropTypes from 'prop-types';
 
 function SidebarComponent({ isOpen, closeSidebar }) {
   const menuItems = [
@@ -16,6 +17,7 @@ function SidebarComponent({ isOpen, closeSidebar }) {
         <div 
           className="fixed inset-0 z-20 bg-slate-900/50 lg:hidden"
           onClick={closeSidebar}
+          aria-hidden="true"
         ></div>
       )}
 
@@ -56,5 +58,10 @@ function SidebarComponent({ isOpen, closeSidebar }) {
     </>
   );
 }
+
+SidebarComponent.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  closeSidebar: PropTypes.func.isRequired,
+};
 
 export default SidebarComponent;

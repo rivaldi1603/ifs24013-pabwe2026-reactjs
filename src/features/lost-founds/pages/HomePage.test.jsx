@@ -14,6 +14,7 @@ vi.mock('react-redux', () => ({
 vi.mock('../states/action', () => ({
   asyncSetLostFounds: vi.fn(),
   asyncPostLostFound: vi.fn(),
+  asyncSetLostFoundStats: vi.fn(),
 }));
 
 describe('HomePage', () => {

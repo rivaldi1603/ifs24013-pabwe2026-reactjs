@@ -32,7 +32,7 @@ function DetailPage() {
       'Apakah Anda yakin ingin menghapus laporan ini? Tindakan ini tidak dapat dibatalkan.'
     );
     if (isConfirm) {
-      dispatch(asyncDeleteLostFound(id));
+      await Promise.resolve(dispatch(asyncDeleteLostFound(id)));
       navigate('/');
     }
   };

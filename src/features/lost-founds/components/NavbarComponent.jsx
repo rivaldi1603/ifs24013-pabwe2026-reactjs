@@ -14,7 +14,7 @@ function NavbarComponent({ toggleSidebar }) {
   const handleLogout = async () => {
     const isConfirm = await showConfirmDialog('Logout', 'Apakah Anda yakin ingin keluar?');
     if (isConfirm) {
-      dispatch(asyncSetAuthLogout());
+      await Promise.resolve(dispatch(asyncSetAuthLogout()));
       navigate('/auth/login');
     }
   };

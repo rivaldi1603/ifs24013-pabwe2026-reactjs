@@ -27,8 +27,8 @@ function RegisterPage() {
     }
 
     // We can await the dispatch since we made it return a boolean indicating success
-    const success = dispatch(
-      asyncSetAuthRegister({ name, email, password, passwordConfirmation })
+    const success = await Promise.resolve(
+      dispatch(asyncSetAuthRegister({ name, email, password, passwordConfirmation }))
     );
     if (success) {
       navigate('/auth/login');

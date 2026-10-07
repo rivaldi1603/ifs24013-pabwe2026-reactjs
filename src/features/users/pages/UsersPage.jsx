@@ -13,7 +13,7 @@ function UsersPage() {
   useEffect(() => {
     async function fetchUsers() {
       setIsLoading(true);
-      dispatch(asyncSetUsers());
+      await Promise.resolve(dispatch(asyncSetUsers()));
       setIsLoading(false);
     }
     fetchUsers();

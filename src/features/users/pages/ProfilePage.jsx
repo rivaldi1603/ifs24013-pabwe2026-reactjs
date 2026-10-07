@@ -65,7 +65,7 @@ function ProfilePage() {
       await showErrorDialog('Validasi Gagal', 'Nama dan email wajib diisi!');
       return;
     }
-    dispatch(asyncPutProfile({ name, email }));
+    await Promise.resolve(dispatch(asyncPutProfile({ name, email })));
   }
 
   async function onPhotoSubmit(event) {
@@ -74,7 +74,7 @@ function ProfilePage() {
       await showErrorDialog('Validasi Gagal', 'Pilih berkas foto terlebih dahulu!');
       return;
     }
-    dispatch(asyncPostProfilePhoto(photoFile));
+    await Promise.resolve(dispatch(asyncPostProfilePhoto(photoFile)));
   }
 
   async function onPasswordSubmit(event) {
@@ -93,9 +93,9 @@ function ProfilePage() {
       );
       return;
     }
-    dispatch(
+    await Promise.resolve(dispatch(
       asyncPutProfilePassword({ password, new_password: newPassword })
-    );
+    ));
   }
 
   if (!profile) {

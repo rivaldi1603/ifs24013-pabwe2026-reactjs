@@ -39,7 +39,7 @@ function ChangeCoverModal({ isOpen, onClose, lostFoundId, onSuccess }) {
     e.preventDefault();
     if (!selectedFile || !lostFoundId) return;
 
-    dispatch(asyncPostLostFoundCover(lostFoundId, selectedFile));
+    await Promise.resolve(dispatch(asyncPostLostFoundCover(lostFoundId, selectedFile)));
     
     // reset
     setSelectedFile(null);

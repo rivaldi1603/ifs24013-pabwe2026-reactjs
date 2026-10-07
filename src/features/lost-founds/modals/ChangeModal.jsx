@@ -27,13 +27,15 @@ function ChangeModal({ isOpen, onClose, lostFound, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(
-      asyncPutLostFound(lostFound.id, {
-        title,
-        description,
-        status,
-        is_completed: isCompleted ? 1 : 0,
-      })
+    await Promise.resolve(
+      dispatch(
+        asyncPutLostFound(lostFound.id, {
+          title,
+          description,
+          status,
+          is_completed: isCompleted ? 1 : 0,
+        })
+      )
     );
     
     if (onSuccess) onSuccess();
